@@ -1,0 +1,1 @@
+The logs folder captures historical diagnostic data for analysis and troubleshooting.

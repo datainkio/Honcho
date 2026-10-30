@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=./profile-schema.json
+
+apiVersion: honcho/v1
+kind: HonchoProfile
+metadata:
+  name: default
+spec:
+  # The source material for this profile, typically a dossier containing the candidate's information.
+  dossier: ./candidate/dossiers/DEFAULT.md
+  # The templates supplying static content that the renderer will use to generate the final documents.
+  resume: ./candidate/templates/resumes/DEFAULT.md
+  cover_letter: ./candidate/templates/cover_letters/DEFAULT.md
+  interest: ./candidate/templates/interest/DEFAULT.md
+  style: ./candidate/templates/styles/DEFAULT.yaml
+  # The search criteria for this profile's retrieval runs.
+  criteria: ./candidate/criteria/DEFAULT.yaml

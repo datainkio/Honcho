@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://honcho.local/schemas/profile.schema.json",
+  "title": "Honcho profile",
+  "description": "One set of inputs for a pipeline run. The root config names the profile to use. Copy DEFAULT.yaml to start a new one.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": {
+      "description": "Schema version. Bump it when a field is renamed or removed.",
+      "const": "honcho/v1"
+    },
+    "kind": {
+      "const": "HonchoProfile"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "description": "Unique profile name, lowercase with hyphens. The root config refers to the profile by this name.",
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "description": {
+          "description": "What this profile is for, e.g. the role family or the experiment it tests.",
+          "type": "string"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dossier", "resume", "cover_letter", "interest", "style"],
+      "properties": {
+        "dossier": {
+          "description": "The source material for this profile, typically a dossier containing the candidate's information.",
+          "$ref": "#/$defs/markdownPath"
+        },
+        "criteria": {
+          "description": "Search criteria for this profile's retrieval runs.",
+          "$ref": "#/$defs/yamlPath"
+        },
+        "resume": {
+          "description": "Résumé template.",
+          "$ref": "#/$defs/markdownPath"
+        },
+        "cover_letter": {
+          "description": "Cover-letter template.",
+          "$ref": "#/$defs/markdownPath"
+        },
+        "interest": {
+          "description": "Interest-statement template.",
+          "$ref": "#/$defs/markdownPath"
+        },
+        "style": {
+          "description": "Render style (fonts, sizes, margins) for the docx and pdf output.",
+          "$ref": "#/$defs/yamlPath"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "path": {
+      "description": "A path relative to the Honcho root, starting with ./",
+      "type": "string",
+      "pattern": "^\\./(?!.*\\.\\./)"
+    },
+    "markdownPath": {
+      "allOf": [{ "$ref": "#/$defs/path" }, { "pattern": "\\.md$" }]
+    },
+    "yamlPath": {
+      "allOf": [{ "$ref": "#/$defs/path" }, { "pattern": "\\.ya?ml$" }]
+    }
+  }
+}

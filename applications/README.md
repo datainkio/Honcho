@@ -1,0 +1,1 @@
+The applications folder holds the content produced by the tailoring workflow.
