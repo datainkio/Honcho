@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "linkedin": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-linkedin@latest"
+      ],
+      "env": {
+        "UV_HTTP_TIMEOUT": "300",
+        "TOOL_TIMEOUT": "300",
+        "TIMEOUT": "10000",
+        "LOG_LEVEL": "WARNING"
+      }
+    },
+    "jobgether": {
+      "type": "http",
+      "url": "https://jobgether.com/mcp"
+    }
+  }
+}

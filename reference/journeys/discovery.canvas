@@ -1,0 +1,26 @@
+{
+	"nodes":[
+		{"id":"5c73762d419b76f4","type":"group","x":20,"y":-1200,"width":2750,"height":1060,"color":"4","label":"Discovery"},
+		{"id":"67fd22a24cc19561","type":"text","text":"Candidate?","x":2100,"y":-676,"width":250,"height":60},
+		{"id":"5d697bd3a695405b","type":"text","text":"Apply","x":2500,"y":-676,"width":250,"height":60},
+		{"id":"a775d9fbb4a1ef7e","type":"text","text":"Search","x":1640,"y":-676,"width":250,"height":60},
+		{"id":"70b43706a8f10bd3","type":"text","text":"No. Continue searching.","x":1890,"y":-506,"width":250,"height":60},
+		{"id":"817d0a2f222d3fdd","type":"file","file":"business development/automation/content models/job-posting.md","x":600,"y":-846,"width":400,"height":400},
+		{"id":"5a54b62c295e2196","type":"file","file":"People/🤖 Job Board.md","x":1085,"y":-846,"width":400,"height":400},
+		{"id":"1e647f2c4d9f2ac1","type":"file","file":"People/🧑 Russ.md","x":1565,"y":-1160,"width":400,"height":400},
+		{"id":"c13a69f19c4ebdd5","type":"file","file":"People/🧑 Recruiter.md","x":40,"y":-560,"width":400,"height":400},
+		{"id":"f23ce51d08cb23dd","type":"file","file":"People/🧑 Hiring Manager.md","x":40,"y":-1120,"width":400,"height":400}
+	],
+	"edges":[
+		{"id":"721658f8673dd82b","fromNode":"f23ce51d08cb23dd","fromSide":"bottom","toNode":"c13a69f19c4ebdd5","toSide":"top","label":"Direction"},
+		{"id":"b60656af8aa415b8","fromNode":"1e647f2c4d9f2ac1","fromSide":"bottom","toNode":"a775d9fbb4a1ef7e","toSide":"top"},
+		{"id":"b78da2e089302e51","fromNode":"5a54b62c295e2196","fromSide":"right","toNode":"a775d9fbb4a1ef7e","toSide":"left"},
+		{"id":"f702ec631bf4c634","fromNode":"67fd22a24cc19561","fromSide":"bottom","toNode":"70b43706a8f10bd3","toSide":"right"},
+		{"id":"8dd29788cefe5b8b","fromNode":"70b43706a8f10bd3","fromSide":"left","toNode":"a775d9fbb4a1ef7e","toSide":"bottom"},
+		{"id":"eea5019127ac3f31","fromNode":"a775d9fbb4a1ef7e","fromSide":"right","toNode":"67fd22a24cc19561","toSide":"left","label":"results"},
+		{"id":"d53b57d89919a408","fromNode":"67fd22a24cc19561","fromSide":"right","toNode":"5d697bd3a695405b","toSide":"left","label":"yes"},
+		{"id":"b8cd44bb2c419515","fromNode":"f23ce51d08cb23dd","fromSide":"right","toNode":"817d0a2f222d3fdd","toSide":"left"},
+		{"id":"ab6dea3bb9922db3","fromNode":"c13a69f19c4ebdd5","fromSide":"right","toNode":"817d0a2f222d3fdd","toSide":"left"},
+		{"id":"832789e76227d723","fromNode":"817d0a2f222d3fdd","fromSide":"right","toNode":"5a54b62c295e2196","toSide":"left"}
+	]
+}

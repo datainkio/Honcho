@@ -1,47 +1,50 @@
+# Honcho
+
+Job discovery, resume creation, and application tracking
+
 ## Getting Started
+
+### 1. Setup
+
+### 2. Personalization
+
+Building a dossier
+
+### 3. Pipeline
+
+Pipeline profiles
+
+### 4. Progress
+
+dotpm
 
 ## What's here
 
-The project is structured to serve as a complete workspace for managing the job application workflow. The folder structure is below:
+Folders for user-supplied material, pipeline output, configuration profiles, and reference materials.
+At the root of the repo is an Obsidian vault. Obsidian is not required; its primary role is to provide data views and ease project management. The community plugin dotpm comes pre-installed to support the application lifecycle.
 
-## Applications
+### Applicant
+
+The candidate folder contains user-supplied content and settings.
+
+### Applications
 
 The applications folder is where Honcho renders content tailored for particular job descriptions. It supplies what may be the most important bits: the docx/pdf files uploaded as part of the online application.
 
 For each job folder:
 
 - cover-letter.md
-- interest.md
+- questions.md
 - match-report.md
 - resume.md
 - cover letter docx
 - resume docx
 - resume pdf
 
-## Candidate
+### Pipeline
 
-The candidate folder contains user-supplied content and settings.
+### Profiles
 
-## Pipeline
+User-defined settings and values captured in markdown.
 
-## Profiles
-
-## Reference
-
-## Research
-
-## Tracking
-
-## Utils
-
-## Vocabulary
-
-## Requirements
-
-### LLMs
-
-### Obsidian Plugins
-
-- DataView
-- dotpm: tracking applications across the lifecycle
-- Claudian (or some other LLM?)
+### Reference

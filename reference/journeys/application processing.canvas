@@ -1,0 +1,33 @@
+{
+	"nodes":[
+		{"type":"group","id":"9b6f40324223a362","x":20,"y":1100,"width":2960,"height":1280,"color":"5","label":"Application processing"},
+		{"type":"group","id":"b3db420b1ea5880f","x":40,"y":1440,"width":1000,"height":920,"label":"Submitted application"},
+		{"type":"file","id":"15733eaaf67bc58a","file":"People/🤖 Automated Tracking System.md","x":1140,"y":1460,"width":400,"height":400},
+		{"type":"text","id":"fb97c04706ca047c","text":"Ranked list of submitted applications","x":2160,"y":1620,"width":260,"height":80},
+		{"type":"file","id":"952490b29a6ae083","file":"People/🧑 Recruiter.md","x":2560,"y":1740,"width":400,"height":400},
+		{"type":"file","id":"941247e899b8edb0","file":"business development/automation/content models/job-posting.md","x":1675,"y":1140,"width":400,"height":400},
+		{"type":"text","id":"0c26fa872f89ec65","text":"Evaluate parsed resume","x":1750,"y":1630,"width":250,"height":60},
+		{"type":"file","id":"a4e22cb22cc8c329","file":"People/🧑 Hiring Manager.md","x":2560,"y":1180,"width":400,"height":400},
+		{"type":"text","id":"0d65fa70fae504db","text":"Curated list of applicants","x":2635,"y":1630,"width":250,"height":60},
+		{"type":"file","id":"d44dfc5ee73854e0","file":"business development/automation/content models/application-package.md","x":100,"y":1690,"width":400,"height":400},
+		{"type":"file","id":"c169dc6fb085a549","file":"business development/automation/content models/cover-letter.md","x":620,"y":1940,"width":400,"height":400},
+		{"type":"file","id":"290e819483c15717","file":"business development/automation/content models/resume.md","x":620,"y":1460,"width":400,"height":400}
+	],
+	"edges":[
+		{"id":"377ac7bafa2923ee","fromNode":"941247e899b8edb0","fromSide":"bottom","toNode":"0c26fa872f89ec65","toSide":"top","label":"criteria"},
+		{"id":"b8db1ad5961b7703","fromFloating":false,"fromNode":"0c26fa872f89ec65","fromSide":"right","toNode":"fb97c04706ca047c","toSide":"left","label":"add"},
+		{"id":"66c0a82149664fda","fromNode":"15733eaaf67bc58a","fromSide":"right","toNode":"0c26fa872f89ec65","toSide":"left","label":"parse"},
+		{"id":"a8aad276bf27e9aa","fromNode":"fb97c04706ca047c","fromSide":"right","toNode":"a4e22cb22cc8c329","toSide":"left"},
+		{"id":"ef5d453bda3f5da4","fromNode":"fb97c04706ca047c","fromSide":"right","toNode":"952490b29a6ae083","toSide":"left"},
+		{"id":"34ebd4dff0130203","fromNode":"0d65fa70fae504db","fromSide":"top","toNode":"a4e22cb22cc8c329","toSide":"bottom"},
+		{"id":"501eedf14ba21dd3","fromNode":"952490b29a6ae083","fromSide":"top","toNode":"0d65fa70fae504db","toSide":"bottom"},
+		{"id":"5172466f85258a01","fromNode":"d44dfc5ee73854e0","fromSide":"right","toNode":"c169dc6fb085a549","toSide":"left"},
+		{"id":"9ca3f14ff72377b6","fromNode":"d44dfc5ee73854e0","fromSide":"right","toNode":"290e819483c15717","toSide":"left"},
+		{"id":"dbc05272aa632427","fromNode":"290e819483c15717","fromSide":"right","toNode":"15733eaaf67bc58a","toSide":"left"},
+		{"id":"7f7c3b1afc9ed66b","fromNode":"c169dc6fb085a549","fromSide":"right","toNode":"fb97c04706ca047c","toSide":"left","label":"attached"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

@@ -1,0 +1,206 @@
+{
+	"nodes":[
+		{"id":"423316b794dd5737","type":"group","x":780,"y":-420,"width":300,"height":280,"label":"Result"},
+		{
+			"id":"30eb09b9808049b6",
+			"type":"text",
+			"text":"# Title",
+			"styleAttributes":{},
+			"x":1080,
+			"y":-700,
+			"width":260,
+			"height":60
+		},
+		{"id":"91f215c743cca7e9","type":"file","file":"People/🧑 Russ.md","x":-2020,"y":174,"width":400,"height":400},
+		{"id":"2b73e9380cd1f785","type":"file","file":"business development/automation/skills/job-retrieval/README.md","x":-1520,"y":174,"width":400,"height":400},
+		{"id":"9cb9a0149c620303","type":"file","file":"People/🤖 Agent.md","x":-1020,"y":174,"width":400,"height":400},
+		{"id":"632264d20086aa43","type":"file","file":"business development/automation/config/search-criteria.yaml","x":-520,"y":331,"width":400,"height":89},
+		{"id":"77e644710ff533db","type":"file","file":"People/🤖 Job Board.md","x":-1020,"y":-740,"width":400,"height":400},
+		{
+			"id":"e7f53db6def7c87b",
+			"type":"text",
+			"text":"# match report",
+			"styleAttributes":{},
+			"x":1210,
+			"y":420,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"f8e7482a16ffa901",
+			"type":"text",
+			"text":"# description",
+			"styleAttributes":{},
+			"x":720,
+			"y":144,
+			"width":260,
+			"height":60
+		},
+		{"id":"8c7047ea92469ccb","type":"file","file":"business development/job boards/LinkedIn.md","x":160,"y":-493,"width":400,"height":400},
+		{"id":"f3c6b51ddff2754e","type":"file","file":"business development/job boards/UI-UX Board.md","x":160,"y":20,"width":400,"height":400},
+		{"id":"9413a17752a13c04","type":"file","file":"business development/job boards/Jobgether.md","x":160,"y":1160,"width":400,"height":400},
+		{"id":"8ea21508db048861","type":"file","file":"business development/job boards/Indeed.md","x":160,"y":574,"width":400,"height":400},
+		{
+			"id":"edeb51d39d3d4bbe",
+			"type":"text",
+			"text":"# LinkedIn ID",
+			"styleAttributes":{},
+			"x":-950,
+			"y":-967,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"8f2edaac0a42cb13",
+			"type":"text",
+			"text":"# Note: Some boards require scraping to retrieve job details\nThe expectation is that the AI agent has access to a browser. For Claude, this means using the claude-in-chrome extension. This can be a little tricky to get going - it is likely to report that it is installed but disabled. Some things to try when this happens:\n- restart the session\n- check via /mcp and /chrome\n- @browser can work, too\n\nFrom Claude:\n- **Persistence:** your config has \"Enabled by default\" on, so new sessions should connect on their own. If one doesn't, type `@browser` in the prompt.\n- **Job-search automation:** the `job-fetcher` agent for Jobgether and Indeed uses these tools. The allowlist in this project's `settings.local.json` covers `jobgether.com` and `www.indeed.com`, so those two sites are the ones it can use without prompting.\n- **Claude Desktop:** I didn't need to touch its native host manifest. If the connection drops later, quit Desktop, restart Chrome and use **Reconnect extension** in `/chrome`.",
+			"styleAttributes":{},
+			"x":-490,
+			"y":-1227,
+			"width":500,
+			"height":687
+		},
+		{"id":"195d05161b578703","type":"file","file":"business development/automation/content models/job-posting.md","x":-1580,"y":-1167,"width":400,"height":400},
+		{
+			"id":"8f5b6304cc4a0df7",
+			"type":"text",
+			"text":"",
+			"styleAttributes":{},
+			"x":580,
+			"y":-920,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"b3cfa4d17b761be5",
+			"type":"text",
+			"text":"# Description",
+			"styleAttributes":{},
+			"x":1300,
+			"y":-313,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"07fda586e528637e",
+			"type":"text",
+			"text":"# ID",
+			"styleAttributes":{},
+			"x":790,
+			"y":-313,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"bf6d4d1705b5616b",
+			"type":"text",
+			"text":"# URL",
+			"styleAttributes":{},
+			"x":790,
+			"y":-221,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"df87aa01f06d858c",
+			"type":"text",
+			"text":"# Title",
+			"styleAttributes":{},
+			"x":790,
+			"y":-400,
+			"width":260,
+			"height":60
+		}
+	],
+	"edges":[
+		{
+			"id":"cca0342c80815aa3",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"91f215c743cca7e9",
+			"fromSide":"right",
+			"toNode":"2b73e9380cd1f785",
+			"toSide":"left"
+		},
+		{
+			"id":"74da7283ae081de8",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"2b73e9380cd1f785",
+			"fromSide":"right",
+			"toNode":"9cb9a0149c620303",
+			"toSide":"left"
+		},
+		{
+			"id":"0c480f032b2023ca",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"9cb9a0149c620303",
+			"fromSide":"right",
+			"toNode":"632264d20086aa43",
+			"toSide":"left"
+		},
+		{
+			"id":"770e069974bababf",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"8c7047ea92469ccb",
+			"fromSide":"right",
+			"toNode":"423316b794dd5737",
+			"toSide":"left",
+			"label":"method?"
+		},
+		{
+			"id":"7323d3032a833eaf",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
+			"fromNode":"07fda586e528637e",
+			"fromSide":"right",
+			"toNode":"b3cfa4d17b761be5",
+			"toSide":"left",
+			"label":"retrieve"
+		},
+		{
+			"id":"80fa76cc56265c67",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"632264d20086aa43",
+			"fromSide":"right",
+			"toNode":"8c7047ea92469ccb",
+			"toSide":"left"
+		},
+		{
+			"id":"8b928af38ae8cd61",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"632264d20086aa43",
+			"fromSide":"right",
+			"toNode":"f3c6b51ddff2754e",
+			"toSide":"left"
+		},
+		{
+			"id":"1c2e7b6eb8c17d99",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"632264d20086aa43",
+			"fromSide":"right",
+			"toNode":"8ea21508db048861",
+			"toSide":"left"
+		},
+		{
+			"id":"4e3ec3548a287404",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"632264d20086aa43",
+			"fromSide":"right",
+			"toNode":"9413a17752a13c04",
+			"toSide":"left"
+		}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

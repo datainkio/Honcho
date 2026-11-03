@@ -2,7 +2,7 @@
   "projectsFolder": "",
   "peopleFolder": "People",
   "excludedFolders": [],
-  "defaultView": "table",
+  "defaultView": "kanban",
   "ganttGranularity": "week",
   "ganttWeekLabel": "weekNumber",
   "holidays": [],
@@ -93,7 +93,27 @@
   "taskEditorSurface": "modal",
   "editorSaveModifier": "Shift",
   "projectSurface": "overview",
-  "projectFilters": {},
+  "projectFilters": {
+    "project:tracking/DEFAULT/DEFAULT.md": {
+      "filter": {
+        "conditions": [],
+        "showArchived": false
+      },
+      "activeSavedViewId": null,
+      "sort": [
+        {
+          "key": "status",
+          "dir": "asc"
+        }
+      ],
+      "group": {
+        "field": "status"
+      },
+      "fields": {},
+      "ganttGranularity": "week",
+      "nonWorkingDays": {}
+    }
+  },
   "defaultFields": {},
   "scopeViews": {},
   "collapsedTasks": {},

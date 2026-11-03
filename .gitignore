@@ -1,0 +1,23 @@
+# Credentials
+.env
+
+# Personal install: the active profile and the operator's own inputs
+honcho.yaml
+profiles/*
+!profiles/DEFAULT.md
+!profiles/README.md
+applicant/**/*
+!applicant/**/
+!applicant/**/DEFAULT.*
+!applicant/**/README.md
+
+# Run output and tracking
+logs/*
+!logs/README.md*
+applications/*
+!applications/README.md
+!applications/DEFAULT.md
+
+__pycache__/
+.DS_Store
+.codegraphy/*

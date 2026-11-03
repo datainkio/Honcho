@@ -1,10 +1,4 @@
 {
-	"nodes":[
-		{"id":"abbf4cb1f32b052f","type":"file","file":"reference/content models/Application.md.md","x":-320,"y":-520,"width":400,"height":400},
-		{"id":"bee87799d69255c5","type":"file","file":"reference/content models/Job Posting.md.md","x":-920,"y":120,"width":400,"height":400},
-		{"id":"f8cd3f58e3393861","type":"file","file":"reference/content models/Resume.md.md","x":-320,"y":120,"width":400,"height":400},
-		{"id":"d775843c5dab3237","type":"file","file":"reference/content models/Cover Letter.md.md","x":280,"y":120,"width":400,"height":400},
-		{"id":"b89bcb83a8febe1e","x":220,"y":-460,"width":400,"height":400,"type":"file","file":"reference/content models/Interest Statement.md.md"}
-	],
+	"nodes":[],
 	"edges":[]
 }

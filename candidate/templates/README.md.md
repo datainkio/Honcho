@@ -1,1 +1,0 @@
-The files here define the Mad Libs used to produce tailored content in the candidate's own voice.

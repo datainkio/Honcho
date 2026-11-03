@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "type": "file",
+      "id": "2c5d122209a85a08",
+      "x": 303,
+      "y": -1094,
+      "width": 400,
+      "height": 400,
+      "file": "business development/journeys/application creation.canvas"
+    },
+    {
+      "type": "file",
+      "id": "b0f18a7226ea893d",
+      "x": 900,
+      "y": -1094,
+      "width": 400,
+      "height": 400,
+      "file": "business development/journeys/application processing.canvas"
+    },
+    {
+      "type": "file",
+      "id": "f866020b24a483af",
+      "x": 1520,
+      "y": -1094,
+      "width": 400,
+      "height": 400,
+      "file": "business development/journeys/candidate evaluation.canvas"
+    },
+    {
+      "type": "text",
+      "id": "3b5d8242-cbf2-4f5e-b5e0-0622b7a730f9",
+      "x": -260,
+      "y": -1080,
+      "width": 500,
+      "height": 300,
+      "text": "[[reference/journeys/discovery.canvas]]"
+    }
+  ],
+  "edges": [
+    {
+      "id": "238f3882f0a2e9f8",
+      "fromNode": "2c5d122209a85a08",
+      "fromSide": "right",
+      "toNode": "b0f18a7226ea893d",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "e76f15b9c606caaa",
+      "fromNode": "b0f18a7226ea893d",
+      "fromSide": "right",
+      "toNode": "f866020b24a483af",
+      "toSide": "left",
+      "toEnd": "arrow"
+    }
+  ]
+}

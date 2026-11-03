@@ -1,1 +1,29 @@
-{}
+{
+	"nodes":[
+		{"type":"text","id":"425a52dc-6e05-4a98-b5e0-8f4ddabf1948","x":20,"y":340,"width":300,"height":80,"text":"# / job-retrieval"},
+		{"type":"text","id":"2dba7790-5103-478a-a894-ec0c2fc9da2d","x":400,"y":340,"width":300,"height":80,"text":"# curate results"},
+		{"type":"text","id":"7ad5d4b9-b885-4666-b1e9-c0060f122ed8","x":1140,"y":340,"width":300,"height":80,"text":"# staging"},
+		{"type":"text","id":"d36294a0-cbef-4690-b53a-26a7dc2ba111","x":1780,"y":340,"width":300,"height":80,"text":"# folding"},
+		{"type":"file","id":"0f4a5b31-88b1-419a-9137-453e11b429a5","x":0,"y":-180,"width":500,"height":300,"file":"reference/personas/Agent.md"},
+		{"type":"text","id":"bb81b2ff-343b-4e10-a1a1-bc6c31499909","x":960,"y":20,"width":360,"height":80,"text":"# claude_in_chrome"},
+		{"type":"text","id":"58194caa-efb0-4d74-9e77-c7ac91aba80d","x":740,"y":340,"width":340,"height":80,"text":"# fetch details"},
+		{"type":"text","id":"7dd8053b-bd0e-4165-bb1b-bde873a32231","x":660,"y":20,"width":260,"height":80,"text":"# job-fetcher"},
+		{"type":"text","id":"31a73ac1-960b-43a2-a8ba-70c1ae879f89","x":780,"y":180,"width":260,"height":80,"text":"# slice N"},
+		{"type":"text","id":"8f0a88a4-cd85-462e-a12f-71ae4dcb5d9e","x":1480,"y":340,"width":260,"height":80,"text":"# job posting"},
+		{"type":"text","id":"df359181-6751-4157-981f-c96292378582","x":2240,"y":220,"width":260,"height":80,"text":"# task"},
+		{"type":"text","id":"a6927a4c-8199-4add-98dd-db827009b60a","x":2600,"y":540,"width":340,"height":80,"text":"# interest brief"},
+		{"type":"text","id":"b7487eab-8ef3-4641-a814-acc21a7005ec","x":2240,"y":340,"width":320,"height":80,"text":"# match-reports"}
+	],
+	"edges":[
+		{"id":"7c97d26d-8140-4aef-87bd-0704e013abf5","fromNode":"0f4a5b31-88b1-419a-9137-453e11b429a5","fromSide":"bottom","toNode":"425a52dc-6e05-4a98-b5e0-8f4ddabf1948","toSide":"top","toEnd":"arrow","style":"solid","shape":"curved"},
+		{"id":"8620d4ce-4265-4dbc-a49e-1df1de546ac1","fromNode":"58194caa-efb0-4d74-9e77-c7ac91aba80d","fromSide":"right","toNode":"7ad5d4b9-b885-4666-b1e9-c0060f122ed8","toSide":"left","toEnd":"arrow","style":"solid","shape":"curved"},
+		{"id":"873752dc-03c9-48e7-9512-721513c3eb02","fromNode":"58194caa-efb0-4d74-9e77-c7ac91aba80d","fromSide":"top","toNode":"31a73ac1-960b-43a2-a8ba-70c1ae879f89","toSide":"bottom","toEnd":"arrow","style":"solid","shape":"curved"},
+		{"id":"f969b4db-6805-45d5-b53a-b1b145583159","fromNode":"31a73ac1-960b-43a2-a8ba-70c1ae879f89","fromSide":"top","toNode":"7dd8053b-bd0e-4165-bb1b-bde873a32231","toSide":"bottom","toEnd":"arrow","style":"solid","shape":"curved"},
+		{"id":"730e381a-a561-48b6-8df1-529d672026c1","fromNode":"31a73ac1-960b-43a2-a8ba-70c1ae879f89","fromSide":"top","toNode":"bb81b2ff-343b-4e10-a1a1-bc6c31499909","toSide":"bottom","toEnd":"arrow","style":"solid","shape":"curved"},
+		{"id":"3603c791-625f-47a8-8563-4d8f7a583577","fromNode":"7ad5d4b9-b885-4666-b1e9-c0060f122ed8","fromSide":"right","toNode":"8f0a88a4-cd85-462e-a12f-71ae4dcb5d9e","toSide":"left","toEnd":"arrow","style":"solid","shape":"curved"},
+		{"id":"58938176-d9ad-49f6-9982-b9fe8f7c3b8f","fromNode":"8f0a88a4-cd85-462e-a12f-71ae4dcb5d9e","fromSide":"right","toNode":"d36294a0-cbef-4690-b53a-26a7dc2ba111","toSide":"left","toEnd":"arrow","style":"solid","shape":"curved"},
+		{"id":"e8c1de1e-2903-4421-832c-6940055f23b1","fromNode":"d36294a0-cbef-4690-b53a-26a7dc2ba111","fromSide":"right","toNode":"df359181-6751-4157-981f-c96292378582","toSide":"left","toEnd":"arrow","style":"solid","shape":"curved"},
+		{"id":"2de1d539-48df-41a4-a4d7-da53faf4760c","fromNode":"d36294a0-cbef-4690-b53a-26a7dc2ba111","fromSide":"right","toNode":"a6927a4c-8199-4add-98dd-db827009b60a","toSide":"left","toEnd":"arrow","style":"solid","shape":"curved"},
+		{"id":"4ff94a3b-cddf-41c4-8a3f-0dcea7d6bd4d","fromNode":"d36294a0-cbef-4690-b53a-26a7dc2ba111","fromSide":"right","toNode":"b7487eab-8ef3-4641-a814-acc21a7005ec","toSide":"left","toEnd":"arrow","style":"solid","shape":"curved"}
+	]
+}
