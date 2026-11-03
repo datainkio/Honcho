@@ -1,0 +1,9 @@
+# The run profile this install uses (profiles/<profile>.md). HONCHO_PROFILE overrides it for one run.
+profile: russ
+# Obsidian is not a requirement for any part of the pipeline. Its role is to enhance UX by tracking daily goals and response rates.
+obsidian:
+  # Daily goal for application submissions
+  daily-goal: 10
+  # The goal response rate for application submissions.
+  # Response rate is expressed as a percentage of applications submitted that received a response. That is, any application in with a status of screening, interview, offer, or rejection counts as having received a response.
+  response-goal: .5
