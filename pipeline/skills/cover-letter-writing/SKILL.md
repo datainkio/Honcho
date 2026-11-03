@@ -29,7 +29,6 @@ All paths are relative to the Honcho repo root. They contain spaces, so quote th
 | Truth rules (**binding**)                  | the truth rules (`naming.py paths`, row `truth rules`)                                             |
 | The posting (JD text + custom fields)      | `applications/_tasks/<Company> - <Job title>.md`                               |
 | That posting's résumé (must exist)         | `applications/<task name>/resume.md`                                                       |
-| Fit report and flags                       | the task's **Fit**, **Fit flags**, **Fit gaps** fields, and the report they link in `logs/fit/` |
 
 | Output              | Path                                                                          |
 | ------------------- | ----------------------------------------------------------------------------- |
@@ -37,7 +36,7 @@ All paths are relative to the Honcho repo root. They contain spaces, so quote th
 | Submission artifact | `applications/<task name>/<Name> - <Title> - Cover Letter.docx` |
 | Write-back          | **Cover letter** custom field on the task: a wikilink to the `.docx` only     |
 
-`<Title>` is the posting's job title as the JD gives it, **without the company**, with a trailing `[requisition code]` dropped and `/ \ : * ? " < > | # ^ [ ]` replaced by `-` (the same rule as résumés). The folder is `<job_id>` because titles repeat across employers. The letter's file name adds ` - Cover Letter` after the title, so it sits beside the résumé in the same folder without clashing.
+`<Title>` is the posting's job title as the JD gives it, **without the company**, with a trailing `[requisition code]` dropped and `/ \ : * ? " < > | # ^ [ ]` replaced by `-` (the same rule as résumés). The folder is the task's name, `<Company> - <Job title>` from the task's `title` (`naming.task_folder()`); a same-named posting keeps its collision id, ` (<job_id>)`, at the end. The letter's file name adds ` - Cover Letter` after the title, so it sits beside the résumé in the same folder without clashing.
 
 `<Name>` is the `name:` in the profile's frontmatter.
 
@@ -150,7 +149,7 @@ honesty_review: passed       # only after step 5
 
 ### Batches
 
-When asked for several letters, take up to five per agent. A letter agent writes letters only: it never spawns another agent, and interest statements are separate agents the main session spawns (interest-statement skill, Batches). For each posting, do steps 0–5 and the one `Write`. Don't re-read a letter after writing it, and don't render between letters. When all five are written, lint and render them in one call (step 6.2). Fix only what the linter or renderer reports, then re-run that call. Opus writes the letters: the letter is the product.
+When asked for several letters, take up to five per agent. A letter agent writes letters only: it never spawns another agent, and question answers are separate agents the main session spawns (question-answers skill, Batches). For each posting, do steps 0–5 and the one `Write`. Don't re-read a letter after writing it, and don't render between letters. When all five are written, lint and render them in one call (step 6.2). Fix only what the linter or renderer reports, then re-run that call. Opus writes the letters: the letter is the product.
 
 ### A résumé regenerated later
 

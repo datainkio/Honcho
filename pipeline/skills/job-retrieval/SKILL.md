@@ -14,7 +14,7 @@ One retrieval session: search, select, fetch, fold. You are the runner. Work fro
 ## Rules
 
 - **One confirmation per run (D21).** Present the run's combined shortlist once, grouped by source, and fetch nothing until the operator approves it. That approval covers every source's fetch in the run; a run that adds picks afterwards asks again. Runs are manual and human-paced. Never schedule one, and never run unattended.
-- **Check `sources:` in the criteria file first (D17).** Run a source only if its `enabled` is true. A missing entry means off, except Jobgether, which defaults on. The LinkedIn and UI/UX scripts refuse a disabled source themselves. For Jobgether and Indeed the check is yours.
+- **Check `sources:` in the criteria file first (D17).** Run a source only if its `sources: <source>: enabled` is true. A missing entry means off, except Jobgether, which defaults on. The LinkedIn and UI/UX scripts refuse a disabled source themselves. For Jobgether and Indeed the check is yours.
 - **Load only the reference for the source you are running.** Don't read the other sources' references.
 - **Descriptions never enter this session.** The LinkedIn and UI/UX scripts write them straight to the inbox and print one line per posting (D21). The `job-fetcher` agent reads the Chrome sources. Read the shortlist (`keep` lines), never raw search output, a full record table or a staged note.
 - **Stop on any hard stop** a reference names (automation warning, login or captcha page, Cloudflare check, sign-in wall, a script exiting 1). Don't retry.
@@ -58,7 +58,7 @@ A full description costs about 3.5k tokens, so choose before fetching.
 
 1. Once every enabled search is done, run `python3 pipeline/scripts/tracking/select_candidates.py logs/searches/<this run's records>.md` once over all of them, every source together. It drops every job that already has a task (by job id, or by company and title with legal suffixes and '&'/'and' ignored), is already staged, repeats within the run, or has an excluded title. It prints one `keep` or `drop` line per job. Read the `keep` lines. The same command serves every source.
 2. Subsidiaries and person-named companies still slip past it. Check those by eye.
-3. Choose the most plausible fits against the profile, within the `selection:` policy (`max_fetches_per_run`, `batch_size`). Fetch an ambiguous title rather than guess, and observe each source's own `max_fetches_per_run`.
+3. Choose the most plausible fits against the profile, within `selection: batch_size` and each source's `pacing: max_fetches_per_run`. Fetch an ambiguous title rather than guess.
 4. Present one shortlist, grouped by source, and get one confirmation for the whole run.
 
 ## Step 3: fetch and stage
@@ -72,7 +72,7 @@ python3 pipeline/scripts/sources/uiux_board.py stage --write uiux-remote-us=/job
 
 Start them with Bash `run_in_background` and go on with the Chrome sources while they run: the LinkedIn server drives its own browser profile (`~/.linkedin-mcp/profile/`), the board is plain HTTP, and neither touches the operator's Chrome. Never run two LinkedIn processes at once. A background exit 1 is a hard stop like any other: on its exit notification read only the last line, and stop the whole run, Chrome work included. Each prints one line per posting, with `over100` or `-` for LinkedIn.
 
-**Fit check: off for now** (`selection: fit_check: false`; `python3 pipeline/scripts/naming.py fit` says so). Every staged note goes to the fold (Fit batches were removed, D34). When it is on, give the staged ids to one `job-fetcher` agent with `source: staged` once both scripts have finished.
+**Fit check: off for now** (`fit: check: false`; `python3 pipeline/scripts/naming.py fit` says so). Every staged note goes to the fold (Fit batches were removed, D34). When it is on, give the staged ids to one `job-fetcher` agent with `source: staged` once both scripts have finished.
 
 **Chrome sources (Jobgether, Indeed):** use the `job-fetcher` agent (`model: haiku`), never the main session. Split the selection into batches of `batch_size` and run **one batch at a time** (they share the operator's Chrome). Give each batch its `source` and one line per job: `job_id`, title, company, `source_search`. Each reply is one line per job: `id | company | title | staged or skipped: reason | over100 or -`.
 

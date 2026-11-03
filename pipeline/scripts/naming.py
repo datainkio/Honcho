@@ -332,17 +332,17 @@ if __name__ == "__main__":
     # `python3 pipeline/scripts/naming.py paths`: every resolved path, and whether it exists.
     # `python3 pipeline/scripts/naming.py ids`: field name -> id, so nobody reads the 10k-token project note to find one.
     # `python3 pipeline/scripts/naming.py fit`: the config's fit block, so the job-fetcher never reads the whole config,
-    # or 'Fit check: off' while `selection: fit_check` is false.
+    # or 'Fit check: off' while `fit: check` is false.
     import sys
     if sys.argv[1:] == ["ids"]:
         for name, fid in field_ids().items():
             print(f"{fid}\t{name}")
     elif sys.argv[1:] == ["fit"]:
         cfg = yaml.safe_load(criteria_text()) or {}
-        if not (cfg.get("selection") or {}).get("fit_check", True):
-            print("Fit check: off (selection: fit_check is false). Stage every posting; delete none.")
-            sys.exit(0)
         fit = cfg.get("fit")
+        if fit and not fit.get("check", True):
+            print("Fit check: off (fit: check is false). Stage every posting; delete none.")
+            sys.exit(0)
         if not fit:
             sys.exit(f"no `fit:` block in {CRITERIA.name}: run /job-setup")
         print(f"Targets: {fit.get('targets', '')}")

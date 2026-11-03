@@ -1,8 +1,8 @@
 """What the five source scripts share: exit codes, YAML quoting, guarded writes, config lookups and API keys.
 
 Each source script (linkedin_fetch, jobgether_fetch, uiux_board, fantastic_fetch, theirstack_fetch) raises Stop for a
-hard rule (the run ends, exit 1, no retry) and Fail for bad input or config (exit 2), reads its block of the profile's
-criteria file through source_cfg, which enforces the `sources:` opt-in (D17), and writes only under logs/ through
+hard rule (the run ends, exit 1, no retry) and Fail for bad input or config (exit 2), reads its `sources: <source>:`
+block of the profile's criteria file through source_cfg, which enforces the opt-in (D17, D35), and writes only under logs/ through
 safe_write. Pacing, parsing and the hard stops themselves stay in each script. A library, not a command.
 """
 import os
@@ -27,28 +27,46 @@ class Fail(Exception):
 
 def criteria():
     import yaml  # only the config readers need it; a script's `check` runs without
-    return yaml.safe_load(naming.criteria_text()) or {}
+    cfg = yaml.safe_load(naming.criteria_text()) or {}
+    old = legacy_keys(cfg)
+    if old:
+        raise Fail(f"{naming.CRITERIA.name} uses the old layout (top-level {', '.join(old)}): move each source's "
+                   "settings under `sources: <source>:` (applicant/criteria/README.md, D35)")
+    return cfg
+
+
+def legacy_keys(cfg):
+    """Top-level keys of the layout before D35: LinkedIn's blocks and every other source's block sat at the top."""
+    sel = cfg.get("selection") or {}
+    return [k for k in ("searches", "defaults", "incremental", *LABELS) if k in cfg] + \
+        [f"selection.{k}" for k in ("fit_check", "max_fetches_per_run", "fetch_delay_seconds") if k in sel]
 
 
 def enabled(cfg, source):
     """D17: a source runs only when `sources: <source>: enabled` is true. A missing entry is off, except Jobgether."""
-    entry = (cfg.get("sources") or {}).get(source)
-    return (entry or {}).get("enabled", source == "jobgether")
+    return block(cfg, source).get("enabled", source == "jobgether")
 
 
-def source_cfg(source, block=True):
-    """The criteria file, once `sources: <source>: enabled` is checked. With `block` (the default) the source's own
-    `<source>:` block, which must exist; LinkedIn's settings are top level, so it passes block=False."""
+def block(cfg, source):
+    """The source's own block, `sources: <source>:` ({} when absent): enabled, pacing, defaults, searches (D35)."""
+    return (cfg.get("sources") or {}).get(source) or {}
+
+
+def source_cfg(source):
+    """The source's block of the criteria file, once `sources: <source>: enabled` is checked."""
     cfg = criteria()
     if not enabled(cfg, source):
         raise Fail(f"{LABELS.get(source, source)} is off: set `sources: {source}: enabled: true` in the profile's "
                    "criteria file (naming.py paths)")
-    if not block:
-        return cfg
-    sub = cfg.get(source)
-    if not sub:
-        raise Fail(f"no `{source}:` block in {naming.CRITERIA}")
+    sub = block(cfg, source)
+    if not sub.get("searches"):
+        raise Fail(f"no `sources: {source}: searches:` in {naming.CRITERIA.name}")
     return sub
+
+
+def pacing(sub, key, default):
+    """A `pacing:` value of a source block: `fetch_delay_seconds` or `max_fetches_per_run`."""
+    return (sub.get("pacing") or {}).get(key, default)
 
 
 def find_search(cfg, name, source="a"):

@@ -2,7 +2,7 @@
 """Run the Jobgether searches by script and write their search records, so no search result enters a model's context.
 
 Calls the same public `searchJobs` tool the session used (`.mcp.json`: https://jobgether.com/mcp, no login, D10) as
-JSON-RPC over HTTP, 2 seconds between requests (`jobgether: selection: fetch_delay_seconds`). Listing pages (the
+JSON-RPC over HTTP, 2 seconds between requests (`sources: jobgether: pacing: fetch_delay_seconds`). Listing pages (the
 description text) are still read in the operator's Chrome by the job-fetcher: scripted requests to them get 403.
 Settings come from the `jobgether:` block of the profile's criteria file. `max_age_days` (not an API parameter) drops
 postings older than that many days and stops paging once a page reaches them, since results are sorted by date.
@@ -86,10 +86,7 @@ class Client:
 
 
 def load():
-    jg = common.source_cfg("jobgether")  # the `jobgether:` block; on unless `sources: jobgether: enabled` is false (D17)
-    if not jg.get("searches"):
-        raise Fail("no `jobgether: searches:` in the profile's criteria file (naming.py paths)")
-    return jg
+    return common.source_cfg("jobgether")  # `sources: jobgether:`; on unless its `enabled` is false (D17)
 
 
 def posted_date(job):
@@ -141,7 +138,7 @@ def cmd_search(args):
         if clash:
             raise Fail(f"exists, not overwriting: {', '.join(clash)}")
     url = json.loads(MCP_JSON.read_text(encoding="utf-8"))["mcpServers"]["jobgether"]["url"]
-    delay = (jg.get("selection") or {}).get("fetch_delay_seconds", 2)
+    delay = common.pacing(jg, "fetch_delay_seconds", 2)
     client = Client(url, delay)
     for n in names:
         s = {**(jg.get("defaults") or {}), **by_name[n]}

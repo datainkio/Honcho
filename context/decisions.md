@@ -57,7 +57,7 @@ in `goals/Application Tracking/_tasks/` was costly and fragile to keep in sync. 
 - **Field mapping:** Fit (number), Company, Posting (url), Job ID, Location, Work type (select), Posted (date), Retrieved (date), Search, Résumé variant, Industry (select), Activities and Technologies (multiselect). Retired: `type`, `title` (it's the task title), `status` (it's the task status), `posted_raw`.
 - **Field ids:** values are keyed by opaque field id. Scripts and skills look ids up by name in the project note — never hard-code them. Deleting and recreating a field orphans its values; renaming a field is safe.
 - **Retrieval:** `get_job_details` stages notes in `../data/inbox/`, and [`scripts/fold_jobs_into_tasks.py`](../scripts/fold_jobs_into_tasks.py) `--write --consume` folds them into tasks. Re-running it is safe and preserves task status.
-- **Prioritization:** dotpm saved views can't sort by custom fields, so [`Priority.md`](../../../goals/Application%20Tracking/Priority.md) (DataviewJS) ranks open postings by Fit, then freshness.
+- **Prioritization:** dotpm saved views can't sort by custom fields, so [`Priority.md`](../dashboard.md) (DataviewJS) ranks open postings by Fit, then freshness.
 - **Trade-off:** `goals/` is outside every git repo, so JD text has no version history. The pre-migration `data/jobs/` folder and its archive were deleted on 2026-10-06, so the tasks are now the only copy.
 
 ## D6 — Fit is scored per posting by a fixed rubric
@@ -205,7 +205,7 @@ in `goals/Application Tracking/_tasks/` was costly and fragile to keep in sync. 
 
 - **The skill's only edit is slot values.** Keyword-matching steps 4-5 are proposals in the match report. Russ tunes the template's fixed text himself (the tune loop); that is how the 25-35 term count is reached (Nava: 28 of 31).
 - **Gaps don't halt.** Absent terms and any shortfall are recorded in the match report, which is the single review stop.
-- **Approval gate.** Russ sets the match report's `status: approved`; `scripts/render_resume.py` refuses anything else, and fills `job_title` and `job_title_article` itself. *Superseded by D22: approval is now the task's Matching approved checkbox.*
+- **Approval gate.** Russ sets the match report's `status: approved`; `scripts/render_resume.py` refuses anything else, and fills `job_title` and `job_title_article` itself. _Superseded by D22: approval is now the task's Matching approved checkbox._
 - **Fit is out of scope for the skill** until the package output is confirmed. Fit stays on [`fit-rubric.md`](fit-rubric.md); `specs/calculate-fit-score-spec.md` is a draft for later.
 - **Honesty review skipped for now** (Russ). The truth rules still bind slot values.
 - **Retired 2026-10-29:** `derive_posting_resumes.py` was deleted; `render_docx.py` now holds the shared renderer.
@@ -218,7 +218,7 @@ in `goals/Application Tracking/_tasks/` was costly and fragile to keep in sync. 
 - **In the background, overlapping the Chrome sources.** The LinkedIn server drives its own Patchright profile (`~/.linkedin-mcp/profile/`; `.mcp.json` passes no `--chrome-path`), and the board is plain HTTP, so neither shares the operator's Chrome. Never two LinkedIn processes at once. A background exit 1 stops the whole run. Fold once, at the end.
 - **Fit check off for now** (`selection: fit_check: false`; `naming.py fit` reports it). Every fetched posting is staged; misfits are scored low at the next Fit batch, at the cost of more tasks to triage. When back on, the `job-fetcher` checks script-staged notes with `source: staged`.
 - **Second pass in a day: `search --incremental`**, which lays `incremental:` (`past_24_hours`, 1 page) over `defaults:`. To be verified against a full pass before it's relied on.
-- **One confirmation per run** (Russ chose option A). Every enabled search runs first, then `select_candidates.py` once over all the run's records, then one shortlist grouped by source. Russ's approval covers every source's fetch in that run; picks added afterwards need a new one. Replaces the per-batch and per-source confirmations. *Amended by D30 (2026-10-28): one confirmation per slice.*
+- **One confirmation per run** (Russ chose option A). Every enabled search runs first, then `select_candidates.py` once over all the run's records, then one shortlist grouped by source. Russ's approval covers every source's fetch in that run; picks added afterwards need a new one. Replaces the per-batch and per-source confirmations. _Amended by D30 (2026-10-28): one confirmation per slice._
 - Pacing (8, 5 and 2 seconds), `max_fetches_per_run` and the hard stops are unchanged.
 - **Source order** (2026-10-21, Russ). `select_candidates.py` reads the run's records cheapest-description first: Fantastic, TheirStack, UI/UX Jobs Board, Jobgether, Indeed, LinkedIn. A job listed by several sources is kept from the first and dropped as a repeat from the rest, so LinkedIn, the riskiest fetch, is fetched only for jobs no other source returned. LinkedIn still searches every run: its value is coverage. The order is in the script, not the argument list.
 
@@ -301,7 +301,6 @@ in `goals/Application Tracking/_tasks/` was costly and fragile to keep in sync. 
 - **Once a day:** the same-day guard stays the default for Fantastic and TheirStack. Keep `limit` above the day's expected count; a second daily run waits for the Daily volume experiment.
 - **Shorter reports:** no Slot choices prose (the Fields table is the record), and Gaps are one-line bullets. Russ also asked for a cap of 20 Keywords rows, **not applied**: it conflicts with the 25-35 present-term target, which needs at least 25 rows, and the conflict is unresolved.
 
-
 ## D30 — Streamed slices: one confirmation per slice, paid and fast sources first
 
 **2026-10-28. Accepted (Russ, on the whiteboard: 'Agree' to the 5c amendment and to a continuous sitting of about 25 minutes).** Amends D21's one confirmation per run. Step 5 of [`elapsed-time-plan.md`](elapsed-time-plan.md).
@@ -316,7 +315,6 @@ in `goals/Application Tracking/_tasks/` was costly and fragile to keep in sync. 
 - **Indeed is disabled** (`indeed: enabled: false`): 2 of 74 cards were folded on 2026-10-27. D14 stands for when it returns.
 - **Interest briefs start when the match report lands** (step 3): the packet reads the match report only.
 - **Test, not yet measured:** `--timeline` on the next run shows the first package ready at or under 25 minutes from `/job-retrieval`, all at or under 30, two or three confirmations, and tokens per package no higher than about 241k weighted.
-
 
 ## D31 — Honcho is standalone: the Portfolio automation retires, no data is copied in, dotpm stays
 
@@ -350,3 +348,39 @@ in `goals/Application Tracking/_tasks/` was costly and fragile to keep in sync. 
 - **Shared code, one copy each.** The five source scripts import `sources/common.py`: Stop and Fail with their exit codes 1 and 2, `q`, `safe_write`, `find_search`, the `sources:` opt-in check (D17) and the API key reader. Pacing, parsing and hard stops stay in each script. `naming.py` holds the one frontmatter reader (`split`) and YAML quoting (`q`). `package/match_report.py` holds the match-report table readers, so the packets and the lexicon no longer import a renderer and build without python-docx or reportlab.
 - **Removed.** `apply_fit_scores.py`, the CLI for D6's Fit batches: `logs/fit/` and `fit-rubric.md` were not migrated, and Fit is out of scope (D20). Its `set_values` helper, the only part in use, moved to `tracking/fold_jobs_into_tasks.py`. The Fit custom fields stay on the tasks. Also removed: `render_docx.py`'s unreachable `main()` (left from the derive script, D13) and `safe_name`, a wrapper for `naming.safe`.
 - **Fixed on the way.** `measure_sessions.py` did not parse below Python 3.12, and its model-name shortening never matched. `charset.py` now lints `questions.md` (CLAUDE.md's form-safe rule) and no longer walks `applicant/resumes/`, whose templates hold `{{ slot }}` markers.
+
+## D35 — The criteria file groups by concern: fit, selection, then one block per source
+
+**2026-11-03. Requested by Russ** (the old structure hurt DX).
+
+- **Before.** LinkedIn's `defaults`, `incremental`, `searches` and `selection` sat at the top level beside the other sources' blocks; the top-level `selection:` mixed LinkedIn's pacing with policy every source shares; `fit_check` sat in `selection` away from `fit`; each source's on/off flag sat in a separate `sources:` list, away from its settings.
+- **After.** Three groups. `fit:` holds the check and its prose (`check` replaces `selection: fit_check`). `selection:` holds only what every source shares (`batch_size`, `exclude_title_terms`). `sources: <source>:` holds everything about one source: `enabled`, `pacing` (`max_fetches_per_run`, `fetch_delay_seconds`), `defaults`, `searches`, and what only it has (LinkedIn's `incremental`, UI/UX's `exclude_types`). Values did not change.
+- **Callers.** `sources/common.py` returns the source's block for every source (LinkedIn's special case is gone) and adds `block` and `pacing`; `retrieve.py`, `naming.py fit`, `setup_check.py` and `select_candidates.py` read the new paths. A file in the old layout is refused by the source scripts and reported by `setup_check.py`, not silently misread. Specs keep the old key paths as history.
+
+## D36 — The Résumé variant field is retired
+
+**2026-11-03. Requested by Russ** (a stale property left over from the first proof of concept).
+
+- **Removed.** The task's _Résumé variant_ custom field: its definition in the project note, the "Ready for submission" view's condition on it, and its kanban cards. Its row in `fold_jobs_into_tasks.py`'s field mapping and its values on the 13 tasks that had one were removed too. `render_resume.py` no longer writes it.
+- **The résumé link lives in the links block.** The task's `<!-- links -->` block (`task_links.py`) already links the `.docx` from the files on disk, and the render refreshes it. "Ready for submission" keeps its meaning through its Cover letter condition: a letter can't render without the résumé.
+- Supersedes D7's 'The Résumé variant field links the `.docx` only' and the field's place in D5's mapping. The _Cover letter_ field stays.
+
+## D37 — The Portfolio applications are migrated into Honcho
+
+**2026-11-03. Requested by Russ** (reverses D31's 'No data copied in'; the rest of D31 stands).
+
+- **Copied once, Portfolio only read.** All 623 tasks from the old `goals/Application Tracking/_tasks/` and the 402 packages from `business development/data/applications/` that belong to them. Not copied: run records, `lexicon.json` (`keyword_lexicon.py build` rebuilds it from the match reports), interview transcripts, and two loose files in the packages folder (`README.md`, `Capital One - Senior Manager, Product Design.md`). Select now dedupes against all 665 tasks, so the cost D31 accepted is gone.
+- **dotpm needs no conversion.** Honcho's project note was cloned from the old one: same custom-field ids, same `config.statuses`. dotpm owns a task by its file's folder (`_tasks/`, with `_tasks/Archive/` archived) and keys it by its frontmatter `id`; `taskIds` only orders. No ids collided. Each task's `projectId` and body `Project:` link were repointed at `applications/DEFAULT`; the new tasks were appended to `taskIds` in the old project's order.
+- **Same Job ID in both trackers (5): the Portfolio task wins.** Talkiatry, UpMetrics, ECP (Applied) and Lingraphica, Consertus (Won't Do) replaced Honcho's bare Prospect duplicates.
+- **Same name, different posting (8): the Portfolio task takes the collision id** (`<Company> (<job_id>) - <Job title>`, `unique_title`'s rule), and its package folder follows: Haystack, Vanta, UnitedHealth Group, CVS Health, Dandy, ParentSquare, HighLevel, Custom Ink. The two old Custom Ink tasks shared one package; it went to 4478611390 (Applied), whose id its match report and letter carry. The package's `resume.md` carries the other id, and it is frozen, so it was left as is.
+- **Fields.** `task_links.py` rebuilt the links blocks. The _Cover letter_ field was repointed at Honcho's package folders (every target checked). The retired _Résumé variant_ values (D36) were dropped from the 366 tasks that had one.
+
+## D38 — Each task's progress counts four package files
+
+**2026-11-03. Requested by Russ** (whiteboard: a rough measure of progress per application, for task-management UX).
+
+- **Four dotpm checkbox fields** in the project note: _Has résumé_ (the résumé `.docx` and `.pdf` together count as one), _Has cover letter_ (the letter's `.docx`), _Has match report_ (`match-report.md`), _Has questions_ (`questions.md`, or the legacy `application-questions.md`). They default to false.
+- **`progress`** (dotpm's own field, an integer percent it shows as 'N%') is the share checked: 0, 25, 50, 75 or 100. dotpm never computes it, so the script owns it.
+- **One owner: `task_links.py`.** Its `refresh()` already reads each posting folder for the links block, so it now also sets the four boxes and `progress`. The fold and both renderers call it, so a résumé or letter render updates the task. Match reports and questions are written by agents, so their skills run `task_links.py --write <job_id>...` (new: job ids limit the run to those tasks) after writing.
+- **Views.** The kanban cards that showed the retired Résumé variant now show `progress`. In the same edit, D36's removals from the project note were applied again.
+- **Edit the project note with the vault open, never closed.** dotpm keeps no cache of its own, but at startup it loads the project from Obsidian's metadata cache (IndexedDB), which can still hold the old frontmatter, and writes that back. That is how D36 came undone, and how the first edit of these fields was lost when the vault reopened. With the vault open, Obsidian re-indexes the outside edit straight away. Better still, add custom fields in dotpm's settings: its API can't.

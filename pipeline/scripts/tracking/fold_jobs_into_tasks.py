@@ -45,7 +45,6 @@ FIELDS = [
     ("Posted", "date", "posted"),
     ("Retrieved", "date", "retrieved_at"),
     ("Search", "text", "source_search"),
-    ("Résumé variant", "text", "resume_variant"),
     ("Industry", "select", "industry"),
     ("Activities", "multiselect", "activities"),
     ("Technologies", "multiselect", "technologies"),

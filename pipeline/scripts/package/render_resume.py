@@ -3,8 +3,8 @@
 
 Reads applications/<task name>/match-report.md: its Fields table gives the agent's slot values, its Keywords
 table gives target_vocabulary (terms present) and gaps (terms absent). job_title and job_title_article are filled here,
-never from the report. Writes resume.md, `<Name> - <Title>.docx` and `.pdf` beside the report, and sets the task's
-Résumé variant field to a wikilink to the .docx. Fixed text is rendered as written.
+never from the report. Writes resume.md, `<Name> - <Title>.docx` and `.pdf` beside the report, and refreshes the task's
+links block, which links the .docx. Fixed text is rendered as written.
 Refuses: a frozen posting (D13), a task whose Matching approved box is unchecked (D22), an unfilled slot, a forbidden
 character (D9). The report's own `status` is not read.
 
@@ -27,9 +27,9 @@ import naming  # noqa: E402
 from naming import split  # noqa: E402
 from package import charset  # noqa: E402
 from package.match_report import table  # noqa: E402
-from package.render_docx import render_docx, wikilink  # noqa: E402
+from package.render_docx import render_docx  # noqa: E402
 from package.render_pdf import render_pdf  # noqa: E402
-from tracking.fold_jobs_into_tasks import refresh_links, set_values  # noqa: E402
+from tracking.fold_jobs_into_tasks import refresh_links  # noqa: E402
 
 TEMPLATE = naming.RESUME_TEMPLATE
 SCRIPT_SLOTS = ("job_title", "job_title_article")
@@ -53,7 +53,7 @@ def for_render(body):
     return re.sub(r"^#### (.+)$", r"**\1**", body, flags=re.M)
 
 
-def render_one(jid, write, rid):
+def render_one(jid, write):
     task = naming.find_task(jid)
     if not task:
         sys.exit(f"no task with Job ID {jid}")
@@ -105,7 +105,6 @@ def render_one(jid, write, rid):
     }
     (folder / "resume.md").write_text("---\n" + yaml.safe_dump(meta, allow_unicode=True, sort_keys=False) + "---\n\n" + body, encoding="utf-8")
     render_docx(body, folder / fname, title)
-    task.write_text(f"---\n{set_values(fm_text, {rid: wikilink(folder / fname, 'Résumé')})}\n---\n{jd}", encoding="utf-8")
     refresh_links(task)
     print(f"    wrote resume.md, .docx, .pdf; task backed up to {backup}")
 
@@ -115,9 +114,8 @@ def main():
     ap.add_argument("jobs", nargs="+")
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args()
-    rid = naming.field_ids()["Résumé variant"]
     for jid in args.jobs:
-        render_one(jid, args.write, rid)
+        render_one(jid, args.write)
     if not args.write:
         print("dry run; pass --write to apply")
 

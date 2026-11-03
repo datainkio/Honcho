@@ -14,7 +14,7 @@ context/token-efficiency-review.md). Reads the table of one or more logs/searche
   SOURCE_ORDER, whatever the argument order: sources whose description is already in hand (the paid APIs) first,
   the riskiest fetch (LinkedIn) last, so a job several sources list is fetched from the cheapest (D21);
 - its title contains an `exclude_title_terms` entry, its company is a placeholder, or (UI/UX Jobs Board) its type
-  is in `uiux: selection: exclude_types`.
+  is in `sources: uiux: exclude_types`.
 
 Kept jobs whose company or location needs a look (a Featured UI/UX Jobs Board card) are marked `check:`.
 Subsidiaries and person-named companies still need a read: no string rule catches them.
@@ -124,7 +124,7 @@ def select(records, only=None):
     location, where (path or url), note. Exits on a missing record or one without a job table."""
     cfg = yaml.safe_load(CONFIG.read_text(encoding="utf-8")) or {}
     terms = [t.lower() for t in cfg.get("selection", {}).get("exclude_title_terms", [])]
-    types = {t.lower() for t in cfg.get("uiux", {}).get("selection", {}).get("exclude_types", [])}
+    types = {t.lower() for t in ((cfg.get("sources") or {}).get("uiux") or {}).get("exclude_types", [])}
     jids, pairs = tracked()
     staged = {p.stem for p in INBOX.glob("*.md")}
     seen_ids, run_pairs = set(), []

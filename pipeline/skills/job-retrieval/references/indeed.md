@@ -25,7 +25,7 @@ Write `logs/searches/YYYY-MM-DD--ind-<name>.md` with `type: indeed-search-run` a
 
 ## Select
 
-As Step 2 of the skill. Indeed often lists the same posting as LinkedIn with legal suffixes added ('Conservice LLC'); the script strips them. Apply the `indeed: selection:` policy. The picks go on the run's one combined shortlist (Step 2 of the skill).
+As Step 2 of the skill. Indeed often lists the same posting as LinkedIn with legal suffixes added ('Conservice LLC'); the script strips them. Observe `sources: indeed: pacing: max_fetches_per_run`. The picks go on the run's one combined shortlist (Step 2 of the skill).
 
 ## Fetch and stage
 

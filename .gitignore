@@ -21,3 +21,4 @@ applications/*
 __pycache__/
 .DS_Store
 .codegraphy/*
+.claude/*

@@ -5,8 +5,8 @@ The same server Claude Code uses (`.mcp.json`: `uvx mcp-server-linkedin@latest`,
 called from a script so no description passes through a model's context (F1 of context/token-efficiency-review.md).
 `search` runs `search_jobs` for saved searches and records the returned jobs; `stage` runs `get_job_details` and writes
 logs/inbox/<job_id>.md; `check` parses saved tool results with no network.
-Settings come from the top-level `defaults:`, `searches:` and `selection:` blocks of the profile's criteria file;
-`--incremental` lays the `incremental:` block over each search.
+Settings come from the `sources: linkedin:` block of the profile's criteria file (`pacing`, `defaults`, `searches`);
+`--incremental` lays its `incremental:` block over each search.
 
 Usage:
     python3 pipeline/scripts/sources/linkedin_fetch.py search experience-designer [lead-ux-designer-remote ...] [--write]
@@ -18,8 +18,9 @@ Usage:
     python3 pipeline/scripts/sources/linkedin_fetch.py check logs/fixtures/linkedin/*.json   # offline
 
 Human-paced: waits `fetch_delay_seconds` before every tool call, including the first, and refuses more than
-`max_fetches_per_run` ids. Stops the run (exit 1) on a tool error, a login, captcha or security-check page, or two
-postings in a row with no readable description. No retries. Close the Claude Code LinkedIn session first
+`max_fetches_per_run` ids. Stops the run (exit 1) on a tool error, a login, captcha or security-check page, a result
+the server marks rate-limited (`section_errors` type `rate_limit`, its soft-throttle signal), a search that returns no
+jobs without the server's `no_matching_jobs`, or two postings in a row with no readable description. No retries. Close the Claude Code LinkedIn session first
 (`close_session`): the server drives one browser profile.
 """
 import argparse
@@ -65,8 +66,8 @@ FEEDBACK_REF = "Is this information helpful?"  # the redesigned page's only 'job
 # ---------- config ----------
 
 def load_config():
-    """The whole criteria file (LinkedIn's blocks are top level), once `sources: linkedin: enabled` is checked (opt-in, D17)."""
-    return common.source_cfg("linkedin", block=False)
+    """The `sources: linkedin:` block, once its `enabled` is checked (opt-in, D17)."""
+    return common.source_cfg("linkedin")
 
 
 def find_search(cfg, name):
@@ -181,6 +182,12 @@ def challenged(text):
     return next((m for m in CHALLENGE if m in low), None)
 
 
+def section_error(result, section):
+    """The server's `section_errors` entry for one section ({} when none): `error_type` is `rate_limit` when it read
+    the page as throttled, and `no_matching_jobs` or `description_missing` when the page loaded but lacked content."""
+    return (result.get("section_errors") or {}).get(section) or {}
+
+
 def parse_search(result):
     """Rows {id, title, company, location, age, promoted} in result order. The reference text is the title, sometimes
     cut short; the result text lists each card as title, company, location, then badges and age."""
@@ -258,11 +265,15 @@ def parse_job(result, retrieved_at):
     """Note fields and body from a get_job_details result. `verdict` 'ok' means stageable.
     The body is the text between the 'About the job' line and LinkedIn's '… more' line, verbatim apart from trailing
     spaces trimmed and runs of blank lines folded to one."""
+    err = section_error(result, "job_posting").get("error_type")
+    if err == "rate_limit":  # a soft throttle comes back as a result, not a tool error: one more call would push it
+        return {"verdict": "stop: rate limited (server section_errors)", "fields": {}, "body": None}
     text = (result.get("sections") or {}).get("job_posting", "")
     start = text.find("\nAbout the job\n")
     if start < 0:
         hit = challenged(text)
-        return {"verdict": f"stop: '{hit}' page" if hit else "refuse: no 'About the job' section", "fields": {}, "body": None}
+        why = "refuse: no 'About the job' section" + (f" ({err})" if err else "")
+        return {"verdict": f"stop: '{hit}' page" if hit else why, "fields": {}, "body": None}
     hit = challenged(text[:start])
     if hit:
         return {"verdict": f"stop: '{hit}' in the posting header", "fields": {}, "body": None}
@@ -344,12 +355,12 @@ def cmd_search(args):
     if args.incremental:
         inc = cfg.get("incremental") or {}
         if not inc:
-            raise Fail("--incremental needs an `incremental:` block in the profile's criteria file (naming.py paths)")
+            raise Fail("--incremental needs a `sources: linkedin: incremental:` block in the profile's criteria file (naming.py paths)")
         searches = [{**s, **inc} for s in searches]
         suffix = suffix or "-incremental"
     if args.pages:
         searches = [{**s, "max_pages": args.pages} for s in searches]
-    delay = cfg.get("selection", {}).get("fetch_delay_seconds", 8)
+    delay = common.pacing(cfg, "fetch_delay_seconds", 8)
     day = dt.datetime.now().strftime("%Y-%m-%d")
     outs = [SEARCHES / f"{day}--{n}{suffix}.md" for n in names]
     if args.write:
@@ -368,8 +379,13 @@ def cmd_search(args):
             if not res.get("job_ids") and challenged(text):
                 raise Stop(f"'{challenged(text)}' page on search {name}")
             rows = parse_search(res)
-            err = (res.get("section_errors") or {}).get("search_results") or {}
+            err = section_error(res, "search_results")
             warning = f"{err.get('error_type')}: {err.get('error_message')}" if err else ""
+            # Before any record is written: a throttled or failed search must not pass as a short or empty day.
+            if err.get("error_type") == "rate_limit":
+                raise Stop(f"search {name}: rate limited (server section_errors)")
+            if not rows and err.get("error_type") != "no_matching_jobs":
+                raise Stop(f"search {name}: no jobs and no 'no_matching_jobs' from the server ({warning or 'no section_errors'})")
             ceiling = 25 * s.get("max_pages", 1)
             if len(rows) >= ceiling:  # results are in relevance order, so the cut can drop fresh jobs
                 capped = f"capped: {len(rows)} rows fill all {s.get('max_pages', 1)} pages, so results past them were not read."
@@ -407,8 +423,7 @@ def stage_targets(cfg, default, items):
 def cmd_stage(args):
     cfg = load_config()
     targets = stage_targets(cfg, args.search, args.job_ids)
-    sel = cfg.get("selection", {})
-    delay, cap = sel.get("fetch_delay_seconds", 8), sel.get("max_fetches_per_run", 50)
+    delay, cap = common.pacing(cfg, "fetch_delay_seconds", 8), common.pacing(cfg, "max_fetches_per_run", 50)
     bad = [j for _, j in targets if not JOB_ID.match(j)]
     if bad:
         raise Fail(f"not LinkedIn job ids: {', '.join(bad)}")

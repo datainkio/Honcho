@@ -1,1 +1,6 @@
-{}
+{
+  "cssTheme": "Notation",
+  "enabledCssSnippets": [
+    "Dashboard-Zen"
+  ]
+}

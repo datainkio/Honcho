@@ -36,7 +36,7 @@ from pathlib import Path
 import yaml
 
 import naming
-from sources.common import enabled
+from sources.common import block, enabled, pacing
 from tracking.select_candidates import select, source_of
 
 ROOT = naming.ROOT
@@ -57,12 +57,11 @@ def load_cfg():
 
 
 def names(cfg, src):
-    return [s["name"] for s in (cfg.get(src) or {}).get("searches", [])]
+    return [s["name"] for s in block(cfg, src).get("searches", [])]
 
 
 def delay(cfg, src):
-    sel = cfg.get("selection") if src == "linkedin" else (cfg.get(src) or {}).get("selection")
-    return (sel or {}).get("fetch_delay_seconds", 5)
+    return pacing(block(cfg, src), "fetch_delay_seconds", 5)
 
 
 def script(folder, name):

@@ -1,5 +1,5 @@
 {
-  "projectsFolder": "",
+  "projectsFolder": "tracking",
   "peopleFolder": "People",
   "excludedFolders": [],
   "defaultView": "kanban",
@@ -8,46 +8,67 @@
   "holidays": [],
   "statuses": [
     {
-      "id": "todo",
-      "label": "To Do",
+      "id": "status-0f73ia",
+      "label": "Prospect",
       "color": "#8a94a0",
-      "icon": "",
+      "icon": "lucide-pickaxe",
       "complete": false
     },
     {
-      "id": "in-progress",
-      "label": "In Progress",
-      "color": "#8b72be",
-      "icon": "",
+      "id": "status-apjiqy",
+      "label": "Applied",
+      "color": "#dbdd31",
+      "icon": "lucide-mail",
       "complete": false
     },
     {
-      "id": "blocked",
-      "label": "Blocked",
-      "color": "#c47070",
-      "icon": "",
+      "id": "status-5c46aq",
+      "label": "Screening",
+      "color": "#315cdd",
+      "icon": "lucide-phone",
       "complete": false
     },
     {
-      "id": "review",
-      "label": "In Review",
-      "color": "#b8a06b",
-      "icon": "",
+      "id": "status-rugj8y",
+      "label": "Interviewing",
+      "color": "#d132dc",
+      "icon": "lucide-speech",
       "complete": false
     },
     {
-      "id": "done",
-      "label": "Done",
-      "color": "#79b58d",
-      "icon": "",
-      "complete": true
+      "id": "status-q44a7s",
+      "label": "Hired",
+      "color": "#4edc32",
+      "icon": "lucide-rocket",
+      "complete": false
     },
     {
-      "id": "cancelled",
-      "label": "Cancelled",
-      "color": "#767491",
-      "icon": "",
-      "complete": true
+      "id": "status-c9ttkn",
+      "label": "Rejected",
+      "color": "#a2111f",
+      "icon": "lucide-octagon-x",
+      "complete": false
+    },
+    {
+      "id": "status-pawi6a",
+      "label": "Unresponsive",
+      "color": "#741616",
+      "icon": "lucide-annoyed",
+      "complete": false
+    },
+    {
+      "id": "status-4ksjug",
+      "label": "Closed",
+      "color": "#704242",
+      "icon": "lucide-alarm-clock",
+      "complete": false
+    },
+    {
+      "id": "status-rseofg",
+      "label": "Won't Do",
+      "color": "#6d4f4f",
+      "icon": "lucide-circle-minus",
+      "complete": false
     }
   ],
   "priorities": [
@@ -94,23 +115,40 @@
   "editorSaveModifier": "Shift",
   "projectSurface": "overview",
   "projectFilters": {
-    "project:tracking/DEFAULT/DEFAULT.md": {
+    "project:applications/DEFAULT.md": {
       "filter": {
         "conditions": [],
         "showArchived": false
       },
-      "activeSavedViewId": null,
+      "activeSavedViewId": "omd4woewmvfnuqbb",
       "sort": [
         {
-          "key": "status",
+          "key": "priority",
           "dir": "asc"
         }
       ],
       "group": {
         "field": "status"
       },
-      "fields": {},
-      "ganttGranularity": "week",
+      "fields": {
+        "table": {
+          "visible": [
+            "title",
+            "status",
+            "priority",
+            "due",
+            "cf:3bgx2370yxzudbaj",
+            "cf:j4v37gn48mjan4ui"
+          ]
+        },
+        "kanban": {
+          "visible": [
+            "priority",
+            "progress"
+          ]
+        }
+      },
+      "ganttGranularity": "day",
       "nonWorkingDays": {}
     }
   },

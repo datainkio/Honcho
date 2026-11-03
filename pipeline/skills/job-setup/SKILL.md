@@ -50,11 +50,11 @@ These are the binding honesty rules for every résumé and letter.
    - **LinkedIn:** read through the operator's own logged-in browser. LinkedIn's User Agreement forbids automated access, and the account can be restricted.
    - **Indeed:** read in the operator's Chrome through the Claude in Chrome extension, behind Cloudflare. Indeed's terms restrict automated access.
    - **UI/UX Jobs Board:** plain-HTTP scraping of design-only listings. Its terms restrict automated access.
-     Set `enabled:` for each from the answers.
+     Set `sources: <source>: enabled:` for each from the answers.
 2. **Targets.** Propose target titles, location and deal-breakers from profile §13. Confirm or edit them with the operator.
 3. **Fit.** Write the `fit:` block: `targets` as one sentence of role families, `location` as a short phrase, and `skip` as role kinds the operator never wants.
-4. **Searches.** For each enabled source, replace the example search with one search per target title, using the name prefix the template shows (`jg-`, `ind-`, `uiux-` or none for LinkedIn). For UI/UX Jobs Board, keep the `remote-united-states` slug unless the operator names another location page.
-5. Remove every `<…>` placeholder. Check that the file parses: `python3 -c "import yaml; yaml.safe_load(open('<criteria file>'))"`.
+4. **Searches.** For each enabled source, replace the example search under `sources: <source>: searches:` with one search per target title, using the name prefix the template shows (`jg-`, `ind-`, `uiux-` or none for LinkedIn). For UI/UX Jobs Board, keep the `remote-united-states` slug unless the operator names another location page.
+5. Remove every `<…>` placeholder. Check it with `python3 pipeline/scripts/setup_check.py`: it parses the file and reports the old pre-D35 layout, empty searches and placeholders.
 
 ### 6. MCP and Python
 

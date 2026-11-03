@@ -1,4 +1,26 @@
 {
-	"nodes":[],
-	"edges":[]
+	"nodes":[
+		{"type":"text","id":"c0a1e5d2b3f40001","x":0,"y":-340,"width":1960,"height":160,"text":"# Content models\nHow the models relate. Each card opens its model; the [[reference/content models/README|README]] has the diagrams and the gates.\nThe profile names every input · the fold turns a posting into a task · the task's title names the package folder · task_links.py writes the folder's state back to the task."},
+		{"type":"group","id":"c0a1e5d2b3f40002","x":0,"y":-60,"width":440,"height":320,"color":"6","label":"Inputs · profiles/ and applicant/"},
+		{"type":"group","id":"c0a1e5d2b3f40003","x":0,"y":500,"width":440,"height":320,"color":"4","label":"Tracking · logs/inbox/ → applications/_tasks/"},
+		{"type":"group","id":"c0a1e5d2b3f40004","x":600,"y":-60,"width":1360,"height":880,"color":"5","label":"Package · applications/<task name>/"},
+		{"type":"file","id":"b9ed8464-cf87-481b-95ee-caeb8c88987e","x":40,"y":0,"width":360,"height":220,"file":"reference/content models/Profile.md"},
+		{"type":"file","id":"9be549b0-8acc-4a09-b572-feceb5e28fc9","x":40,"y":560,"width":360,"height":220,"file":"reference/content models/Job Posting.md"},
+		{"type":"file","id":"2494461b-b702-42cb-a848-c5259cf7c669","x":640,"y":560,"width":360,"height":220,"file":"reference/content models/Application.md"},
+		{"type":"file","id":"f5902d37-6595-4310-b291-b0300b008d56","x":640,"y":0,"width":360,"height":220,"file":"reference/content models/Match Report.md"},
+		{"type":"file","id":"a3f13ff8-2f3e-43ac-bfc0-44d119bb0dce","x":1100,"y":0,"width":360,"height":220,"file":"reference/content models/Resume.md"},
+		{"type":"file","id":"ed4cf084-aa8e-42d4-a271-22c60e3e0315","x":1560,"y":0,"width":360,"height":220,"file":"reference/content models/Cover Letter.md"},
+		{"type":"file","id":"29ef8111-2749-48f7-84a2-a61a754c1e41","x":1100,"y":560,"width":360,"height":220,"file":"reference/content models/Questions.md"}
+	],
+	"edges":[
+		{"id":"c0a1e5d2b3f4e001","fromNode":"b9ed8464-cf87-481b-95ee-caeb8c88987e","fromSide":"bottom","toNode":"9be549b0-8acc-4a09-b572-feceb5e28fc9","toSide":"top","toEnd":"arrow","label":"criteria drive the searches; the project note tracks the tasks"},
+		{"id":"c0a1e5d2b3f4e002","fromNode":"b9ed8464-cf87-481b-95ee-caeb8c88987e","fromSide":"right","toNode":"c0a1e5d2b3f40004","toSide":"left","toEnd":"arrow","label":"dossier, truth rules, résumé and letter templates, question set, render style"},
+		{"id":"c0a1e5d2b3f4e003","fromNode":"9be549b0-8acc-4a09-b572-feceb5e28fc9","fromSide":"right","toNode":"2494461b-b702-42cb-a848-c5259cf7c669","toSide":"left","toEnd":"arrow","label":"the task's title names the folder"},
+		{"id":"c0a1e5d2b3f4e004","fromNode":"2494461b-b702-42cb-a848-c5259cf7c669","fromSide":"bottom","toNode":"9be549b0-8acc-4a09-b572-feceb5e28fc9","toSide":"bottom","toEnd":"arrow","color":"4","label":"task_links.py: links block, Has boxes, progress"},
+		{"id":"c0a1e5d2b3f4e005","fromNode":"f5902d37-6595-4310-b291-b0300b008d56","fromSide":"right","toNode":"a3f13ff8-2f3e-43ac-bfc0-44d119bb0dce","toSide":"left","toEnd":"arrow","color":"1","label":"Fields table fills the slots, once Matching approved"},
+		{"id":"c0a1e5d2b3f4e006","fromNode":"a3f13ff8-2f3e-43ac-bfc0-44d119bb0dce","fromSide":"right","toNode":"ed4cf084-aa8e-42d4-a271-22c60e3e0315","toSide":"left","toEnd":"arrow","label":"must exist first; cited by the letter"},
+		{"id":"c0a1e5d2b3f4e007","fromNode":"f5902d37-6595-4310-b291-b0300b008d56","fromSide":"bottom","toNode":"29ef8111-2749-48f7-84a2-a61a754c1e41","toSide":"top","toEnd":"arrow","label":"evidence, Avoid terms and flags for the brief"},
+		{"id":"c0a1e5d2b3f4e008","fromNode":"2494461b-b702-42cb-a848-c5259cf7c669","fromSide":"top","toNode":"f5902d37-6595-4310-b291-b0300b008d56","toSide":"bottom","toEnd":"arrow","label":"holds"},
+		{"id":"c0a1e5d2b3f4e009","fromNode":"2494461b-b702-42cb-a848-c5259cf7c669","fromSide":"right","toNode":"29ef8111-2749-48f7-84a2-a61a754c1e41","toSide":"left","toEnd":"arrow","label":"holds"}
+	]
 }

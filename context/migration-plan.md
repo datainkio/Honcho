@@ -1,10 +1,10 @@
 ---
 title: "Migration plan: automation → Honcho"
-description: "Retires the Portfolio vault automation and finishes Honcho, a standalone project with its own structure. Code and docs are ported; no data is copied in; dotpm stays as Honcho's tracker."
+description: "Retires the Portfolio vault automation and finishes Honcho, a standalone project with its own structure. Code and docs are ported; the applications (tasks and packages) were copied in once (D37); dotpm stays as Honcho's tracker."
 type: plan
 status: in-progress
 created: 2026-10-29
-updated: 2026-11-02
+updated: 2026-11-03
 ---
 
 # Migration plan: automation → Honcho
@@ -19,7 +19,7 @@ Recorded in [`decisions.md`](decisions.md) as D31 to D33.
 2. **dotpm stays** (Russ, 2026-11-02; reverses the 10-29 decision to drop it). Postings are tracked in Honcho's own dotpm project: `applications/DEFAULT.md` with `applications/_tasks/` (D31).
 3. **History:** `decisions.md` comes over to `context/` (Honcho's decisions start at D31, since the old repo reached D30). The specs go to `pipeline/specs/`. Handoffs and closed plans stay in the old repo as its archive.
 4. **Run records** go to `logs/`: `searches/`, `inbox/`, `runs/`, `fit/`, `fixtures/`, `lexicon.json`.
-5. **No data is copied in** (Russ, 2026-11-02). Honcho starts from its own runs. Cost: Select dedupes only against Honcho's tasks, so a posting tracked only in the old project can come back (D31).
+5. ~~**No data is copied in** (Russ, 2026-11-02).~~ Reversed 2026-11-03 (D37): the old tasks and their packages were copied in once, so Select dedupes against all of them. Run records, the lexicon and interview transcripts stay in the old repo.
 6. **One path layer** (D32). `naming.py` resolves every path from `honcho.yaml` and the active profile. Scripts import the paths, and skills and the job-fetcher name inputs by role plus their `naming.py paths` label.
 
 ## Layout
@@ -41,7 +41,7 @@ Ported from the old repo (code and docs only): `scripts/`, `skills/`, the job-fe
 ## Stages
 
 1. **Path layer.** Done (D32). *Verify:* every script compiles; `naming.py paths` lists every path; `setup_check.py` passes.
-2. ~~Copy Russ's data in.~~ Cancelled (decision 5).
+2. **Copy the applications in.** Done 2026-11-03 (D37): 623 tasks and 402 packages. *Verify:* 665 tasks with unique dotpm ids, `naming.py` indexes all 665, no task links into the Portfolio vault, `charset.py` 0, the fold dry run is clean.
 3. ~~Drop dotpm.~~ Cancelled (decision 2).
 4. **Claude wiring.** Done: skills and the job-fetcher are linked from `.claude/`, `.mcp.json` and `.env.example` are present, and the skills' and agent's paths name Honcho's layout.
 5. **History and docs.** Done: `decisions.md` (D31 to D33 added), specs, runbook, criteria README, `applications/README.md`. Unmapped references are listed under open questions.
@@ -63,3 +63,4 @@ Ported from the old repo (code and docs only): `scripts/`, `skills/`, the job-fe
 - 2026-11-02: **plan revised (whiteboard).** Honcho is standalone, no data is copied in, and dotpm stays (D31 to D33). `naming.py` gained `fit`. The job-fetcher is linked into `.claude/agents/`. A docs sweep mapped the skills, agent, `CLAUDE.md`, specs and READMEs to Honcho paths and ported `decisions.md`, the runbook, four specs and the criteria README. Russ's résumé template, letter template and truth rules moved to `russ.md`, and the DEFAULTs are generic. `match_packet.py` no longer hardcodes the letter header. `python-docx` and `reportlab` are installed. The folder is reattached to `datainkio/honcho` (`git init`, fetch, mixed reset to `origin/main`; nothing committed). *Verified:* every script compiles. `setup_check.py` exits 0. Plan-only `retrieve.py search --paid` lists all five sources. The fold dry run, `charset.py` (0 forbidden) and `task_links.py` dry run work, and `render_resume.py` refuses an unapproved posting. The letter packet is unchanged except for its template path. Pre-edit copies are in session scratchpad `871673b0…/scratchpad/pre-edit/`.
 - 2026-11-02: **scripts reorganized (D34).** `pipeline/scripts/` now has `sources/`, `tracking/` and `package/`, with shared code in `sources/common.py`, `naming.py` and `package/match_report.py`. `apply_fit_scores.py` is deleted. Every documented command path was swept. *Verified:* every script compiles on Python 3.9 and 3.12. Baseline commands give the same output as before at their new paths: setup check, naming, fold, links, charset, Select, titles, the retrieve plans, the renderer dry runs, the letter packet and the paid dry runs. Each source's error paths and its disabled-source refusal return exit 2 offline. Each offline `check` parser accepts synthetic input. LinkedIn, Jobgether and the board were not exercised live. Pre-edit copies are in session scratchpad `365e9a7e…/scratchpad/scripts-orig/`.
 - 2026-11-03: **first commit of the migration.** `LICENSE` (MIT) and `.gitattributes` restored from `origin/main`. Held back as install data: `applications/DEFAULT.md` (the open question above) and the 10-31 handoff.
+- 2026-11-03: **applications migrated (D37).** 623 Portfolio tasks and their 402 packages copied in by a one-off scratchpad script (`c77d8fcd…/scratchpad/migrate_portfolio.py`, kept out of the repo so no Portfolio path ships). Five Job IDs in both trackers took the Portfolio task; eight same-name postings took the collision id. `task_links.py --write` rebuilt the links blocks; the Cover letter field was repointed and the retired Résumé variant values dropped. Backups of `_tasks/` and the project note are in `$TMPDIR/honcho-backups/migrate-portfolio-20261103-091028`, `_tasks.bak-links-091048` and `_tasks.bak-fields-091306`.

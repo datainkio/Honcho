@@ -13,7 +13,7 @@ The path layer and the commands that span the folders.
 
 ## sources/
 
-One script per job board, each with `search`, `stage` and an offline `check`. They share [common.py](sources/common.py): exit codes (1 is a hard stop, 2 is bad input), the `sources:` opt-in (D17), guarded writes and API keys. Pacing, parsing and hard stops stay in each script.
+One script per job board, each with `search`, `stage` and an offline `check`. They share [common.py](sources/common.py): exit codes (1 is a hard stop, 2 is bad input), each source's `sources: <source>:` block with its opt-in (D17, D35), guarded writes and API keys. Pacing, parsing and hard stops stay in each script.
 
 - [linkedin_fetch.py](sources/linkedin_fetch.py): the linkedin MCP server over stdio (D16)
 - [jobgether_fetch.py](sources/jobgether_fetch.py): Jobgether search over HTTP; listing pages are read in Chrome by the job-fetcher (D26)

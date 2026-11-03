@@ -12,6 +12,7 @@ import sys
 import yaml
 
 import naming
+from sources.common import legacy_keys
 
 CONFIG = naming.CRITERIA
 SOURCES = ("linkedin", "jobgether", "indeed", "uiux", "fantastic", "theirstack")
@@ -72,9 +73,12 @@ else:
     except yaml.YAMLError as e:
         report("missing", "config", f"does not parse: {e}")
 src = cfg.get("sources") or {}
+old = legacy_keys(cfg)
+if old:
+    report("missing", "config", f"old layout (top-level {', '.join(old)}): move each source under `sources:` (D35)")
 on = [s for s in SOURCES if (src.get(s) or {}).get("enabled", s == "jobgether")]
 for s in on:
-    block = cfg if s == "linkedin" else cfg.get(s) or {}
+    block = src.get(s) or {}
     if not block.get("searches"):
         report("missing", "config", f"{s} is enabled but has no searches")
     elif "<" in str(block["searches"]):

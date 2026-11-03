@@ -49,7 +49,7 @@ CARD_HREF = re.compile(r'href="(/job/(\d+)-[^"/?#]+)"')  # looser than JOB_PATH:
 # ---------- config ----------
 
 def load_uiux():
-    """The `uiux:` block, once `sources: uiux: enabled` is checked (opt-in, D17). `check` never reads the config."""
+    """The `sources: uiux:` block, once its `enabled` is checked (opt-in, D17). `check` never reads the config."""
     return common.source_cfg("uiux")
 
 
@@ -380,7 +380,7 @@ def age_days(txt):
 def cmd_search(args):
     cfg = load_uiux()
     s = find_search(cfg, args.name)
-    delay = cfg.get("selection", {}).get("fetch_delay_seconds", 5)
+    delay = common.pacing(cfg, "fetch_delay_seconds", 5)
     max_age, max_pages, slug = s["max_age_days"], s["max_pages"], s["slug"]
     base_url = f"{BASE}/design-jobs/{slug}"
     kept, stopped, more = [], False, False
@@ -433,7 +433,7 @@ def cmd_search(args):
 def cmd_stage(args):
     cfg = load_uiux()
     names = {s["name"] for s in cfg.get("searches", [])}
-    delay = cfg.get("selection", {}).get("fetch_delay_seconds", 5)
+    delay = common.pacing(cfg, "fetch_delay_seconds", 5)
     targets = []
     for a in args.paths:
         name, sep, rest = a.partition("=")

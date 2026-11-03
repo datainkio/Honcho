@@ -260,9 +260,9 @@ erDiagram
 
   SEARCH_CRITERIA {
     file path "applicant/criteria/ (the profile's criteria)"
-    config sources "enabled flags per source"
-    config searches "keywords, location, filters"
-    config selection "max_fetches_per_run, batch_size, fit_check"
+    config fit "check, targets, location, skip"
+    config selection "batch_size, exclude_title_terms (every source)"
+    config sources "per source: enabled, pacing, defaults, searches"
   }
   SEARCH_RECORD {
     file path "logs/searches/DATE--name.md"

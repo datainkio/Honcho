@@ -1,0 +1,16 @@
+.mermaid svg {
+  width: 100%;
+  height: auto;
+}
+
+/* Set the chart background without accidentally restyling the bars */
+.mermaid svg[aria-roledescription="xychart"] rect.background {
+  fill: transparent;
+  stroke-width: 0.5;
+}
+
+/* Fixed visual column width */
+.mermaid svg[aria-roledescription="xychart"] g.plot rect:not(.background) {
+  fill: var(--background-primary);
+  width: 6px !important;
+}

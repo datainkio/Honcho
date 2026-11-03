@@ -45,7 +45,7 @@ All paths are relative to the Honcho repo root. They contain spaces, so quote th
 | Résumé source                         | `applications/<task name>/resume.md`                                                                                            |
 | Submission artifact                   | `applications/<task name>/<Name> - <Title>.docx`                                                                                |
 | PDF copy                              | `applications/<task name>/<Name> - <Title>.pdf`                                                                                 |
-| Write-back                            | **Résumé variant** custom field on `applications/_tasks/<Company> - <Job title>.md`: a wikilink to the `.docx` only |
+| Task link                             | the Résumé line of the `<!-- links -->` block on `applications/_tasks/<Company> - <Job title>.md`, to the `.docx` (refreshed by the render) |
 
 **Job records are dotpm tasks.** Each posting is one task; the JD text is the note body and the JD metadata is in `customFields`, keyed by opaque field id. Resolve ids **by name** with `python3 pipeline/scripts/naming.py ids`: never read the project note for them, and never hard-code an id. The task `title` is `<Company> - <Job title>`; the task `status` is the application stage, and postings at Applied or later are frozen (D13).
 
@@ -92,6 +92,7 @@ Run the [keyword-matching spec](../../specs/keyword-matching-spec.md) on the tem
 - **Fields** table: `| slot | value |`, one row per slot, then the Summary sentence as it will read.
 - **Keywords** table: term, found as, where, action, backing.
 - **Count** against the 25–35 target, and **Gaps**: bullets only, one short line per absent term or shortfall, grouped as no backing, backed with no template wording, and partly backed. No paragraphs.
+- Once the batch's reports are written, run `python3 pipeline/scripts/tracking/task_links.py --write <job_id>...` so each task's Has match report box and progress update (D38).
 - No **Slot choices** prose. The Fields table is the record of the slots; the posting wording behind a choice is not written out. Add a line only where Russ must decide something the table can't show (for example, a slot with two reasonable values).
 
 **Flags** (D28): after the Gaps, list the eligibility facts Russ needs before approving. Name a location the profile's 'Baltimore, MD + remote' doesn't meet (remote limited to other states, hybrid or on-site elsewhere, another country). Quote any pay range the JD states, without judging it. Note contract or staffing-firm terms, clearance, travel and required degrees. Write 'Flags: none' when there are none.
@@ -113,23 +114,23 @@ Once the task's Matching approved box is checked:
 
 ```bash
 python3 pipeline/scripts/package/render_resume.py <job_id>           # dry run: slot values and file names
-python3 pipeline/scripts/package/render_resume.py <job_id> --write   # resume.md, .docx, .pdf, Résumé variant link
+python3 pipeline/scripts/package/render_resume.py <job_id> --write   # resume.md, .docx, .pdf, task links block
 ```
 
-The script fills the template from the report's Fields table, refuses a task whose Matching approved box is unchecked, a frozen posting, an unfilled slot or a forbidden character, renders per the [ATS formatting spec](../../specs/ats-formatting-spec.md), and sets the task's Résumé variant to the `.docx` and refreshes its links block.
+The script fills the template from the report's Fields table, refuses a task whose Matching approved box is unchecked, a frozen posting, an unfilled slot or a forbidden character, renders per the [ATS formatting spec](../../specs/ats-formatting-spec.md), and refreshes the task's links block, whose Résumé line links the `.docx`.
 
-Then the cover letter (`/cover-letter-writing`) and interest statement (`/interest-statement`) complete the application package.
+Then the cover letter (`/cover-letter-writing`) and the question answers (`/question-answers`) complete the application package. The answers' brief needs only the match report, so it can start before the render.
 
 ## Done when (acceptance criteria)
 
 1. `match-report.md` exists with the Fields table, the Keywords table, the Count and the Gaps, and the task's Matching approved box is checked by Russ.
 2. The count of present terms is within 25–35, or the shortfall is recorded as a gap.
 3. `resume.md`, `<Name> - <Title>.docx` and `<Name> - <Title>.pdf` exist; the `.docx` opens cleanly; `python3 pipeline/scripts/package/charset.py` exits 0.
-4. The task's Résumé variant holds the `.docx` link.
+4. The task's links block links the `.docx`.
 
 ## Run output (report to operator)
 
 - After step 3: the slot values and the Summary sentence as it reads, the count against 25–35, the gaps (backed and unbacked), and the proposed swaps.
 - After step 5: the file paths.
 
-**Task note links.** Each task's body starts with a `<!-- links -->` block (Posting, Résumé, Cover letter). It is built from the files on disk by `pipeline/scripts/tracking/task_links.py`, which the render scripts call. Run `python3 pipeline/scripts/tracking/task_links.py --write` after any change made by hand.
+**Task note links.** Each task's body starts with a `<!-- links -->` block (Posting, Résumé, Cover letter). It is built from the files on disk by `pipeline/scripts/tracking/task_links.py`, which the render scripts call; the same run sets the Has résumé, Has cover letter, Has match report and Has questions boxes and `progress` (D38). Run `python3 pipeline/scripts/tracking/task_links.py --write [<job_id>...]` after any change made by hand.

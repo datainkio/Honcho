@@ -1,8 +1,28 @@
 # Search-criteria mapping
 
-Every field in the criteria file (the one the run profile's `criteria` key names; `naming.py paths`, row `criteria`) corresponds to a parameter of the `search_jobs` MCP tool. Values below are read from the tool source ([`job.py`](https://github.com/stickerdaniel/linkedin-mcp-server/blob/main/linkedin_mcp_server/tools/job.py)), which exposes more filters than the project README table advertises.
+The criteria file is the one the run profile's `criteria` key names (`naming.py paths`, row `criteria`). [`DEFAULT.yaml.md`](DEFAULT.yaml.md) is a runnable starting point.
 
-## `search_jobs` parameters
+## Layout (D35)
+
+Three top-level groups, read top to bottom:
+
+```yaml
+fit:          # what a posting must be: check, targets, location, skip
+selection:    # every source: batch_size, exclude_title_terms
+sources:
+  <source>:   # linkedin | jobgether | uiux | fantastic | theirstack | indeed
+    enabled:      # D17 opt-in
+    pacing:       # max_fetches_per_run, fetch_delay_seconds (enforced by the source's script)
+    defaults:     # merged under every search
+    searches:     # one entry per search; `name` becomes the staged note's source_search
+    # source-specific: linkedin `incremental`, uiux `exclude_types`
+```
+
+Each source's block holds everything about that source. A file in the old layout (LinkedIn's blocks and each other source at the top level, `selection: fit_check`) is refused by the source scripts and reported by `setup_check.py`.
+
+## LinkedIn `search_jobs` parameters
+
+The `sources: linkedin:` block's `defaults` and `searches` fields are parameters of the `search_jobs` MCP tool. Values below are read from the tool source ([`job.py`](https://github.com/stickerdaniel/linkedin-mcp-server/blob/main/linkedin_mcp_server/tools/job.py)), which exposes more filters than the project README table advertises.
 
 | YAML field | Tool param | Type | Allowed values |
 | --- | --- | --- | --- |
@@ -24,13 +44,13 @@ LinkedIn's redesigned search page (2026-10-21) keeps only `keywords` and `date_p
 
 `search_jobs` returns a dict with `url`, `sections` (name → raw text), and **`job_ids`** — a list of numeric job-ID strings. Those IDs are the input to `get_job_details`. A LinkedIn job URL like `https://www.linkedin.com/jobs/view/3284153990` carries the same ID (`3284153990`), so a job ID from a LinkedIn URL can be fed straight to `get_job_details` without a search.
 
-## `sources:` (D17)
+## `sources: <source>: enabled` (D17)
 
-Top-level block of `<source>: { enabled: bool }` for `linkedin`, `jobgether`, `indeed`, `uiux`, `fantastic` and `theirstack`. A missing entry is off, except `jobgether`, which is on by default because its search API needs no login. The other three are opt-in: LinkedIn is read through a logged-in browser, Indeed through Chrome behind Cloudflare, and the UI/UX Jobs Board by plain-HTTP scraping, and each source's terms restrict automated access. `fantastic` and `theirstack` are paid APIs whose terms Russ accepted on 2026-10-21 (D23, D24). The five source scripts (`linkedin_fetch.py`, `jobgether_fetch.py`, `uiux_board.py`, `fantastic_fetch.py`, `theirstack_fetch.py`) refuse a disabled source (`search` and `stage`; `check` still runs), and `retrieve.py` skips it. The runbook skips a disabled Indeed section.
+Each source block's `enabled` is a bool, for `linkedin`, `jobgether`, `indeed`, `uiux`, `fantastic` and `theirstack`. A missing source is off, except `jobgether`, which is on by default because its search API needs no login. The other three are opt-in: LinkedIn is read through a logged-in browser, Indeed through Chrome behind Cloudflare, and the UI/UX Jobs Board by plain-HTTP scraping, and each source's terms restrict automated access. `fantastic` and `theirstack` are paid APIs whose terms Russ accepted on 2026-10-21 (D23, D24). The five source scripts (`linkedin_fetch.py`, `jobgether_fetch.py`, `uiux_board.py`, `fantastic_fetch.py`, `theirstack_fetch.py`) refuse a disabled source (`search` and `stage`; `check` still runs), and `retrieve.py` skips it. The runbook skips a disabled Indeed section.
 
 ## `fit:`
 
-Top-level block the `job-fetcher` applies to every staged description, whatever the source: `targets` (prose), `location` (prose) and `skip` (a list of what a role's core must not be). The fetcher reads it through `python3 pipeline/scripts/naming.py fit`, never the whole file. `/job-setup` writes it from the profile's §13.
+Top-level block the `job-fetcher` applies to every staged description, whatever the source, while `check` is true: `targets` (prose), `location` (prose) and `skip` (a list of what a role's core must not be). With `check: false` every fetched posting is staged. The fetcher reads it through `python3 pipeline/scripts/naming.py fit`, never the whole file. `/job-setup` writes it from the profile's §13.
 
 ## Paths and Python (D17)
 
@@ -38,11 +58,11 @@ Paths default to the repo layout: `naming.py paths` prints each one, resolved fr
 
 ## Not tool parameters
 
-The `defaults:` block is a project convenience (each source script merges it into every search). `incremental:` is laid over `defaults:` by `linkedin_fetch.py search --incremental`. The `selection:` block is policy for *which* returned jobs to fetch in full and how fast — it governs the local pipeline, not the LinkedIn query. The scripts enforce `fetch_delay_seconds`, LinkedIn's `max_fetches_per_run` and `exclude_title_terms` (Select drops those titles before any fetch). The session observes the other sources' `max_fetches_per_run`, and `batch_size` sets how many jobs each `job-fetcher` subagent handles. Select always skips jobs that already have a task or are staged; there is no setting for it.
+A source's `defaults:` is a project convenience (its script merges it into every search). `incremental:` is laid over LinkedIn's `defaults:` by `linkedin_fetch.py search --incremental`. A source's `pacing:` governs how much and how fast its script fetches: the scripts enforce `fetch_delay_seconds`, and LinkedIn's script enforces `max_fetches_per_run`; the session observes the other sources' cap. LinkedIn's `fetch_delay_seconds` spaces tool calls only: the server loads a search's own pages 2 seconds apart. The top-level `selection:` applies to every source: Select drops `exclude_title_terms` before any fetch, and `batch_size` sets how many jobs each `job-fetcher` subagent handles. Select always skips jobs that already have a task or are staged; there is no setting for it.
 
 ## Jobgether `searchJobs`
 
-The `jobgether:` block of the criteria file holds the Jobgether searches (own `defaults`, `searches` and `selection`). Its fields are the `searchJobs` parameters, read from the API's own docs at `jobgether.com/astroapi/ai/jobs/docs`. An invalid value returns a 400 that lists the allowed values. Design: [`../../pipeline/specs/integrated-datasources-spec.md`](../../pipeline/specs/integrated-datasources-spec.md).
+The `sources: jobgether:` block holds the Jobgether searches (`enabled`, `pacing`, `defaults`, `searches`). Its fields are the `searchJobs` parameters, read from the API's own docs at `jobgether.com/astroapi/ai/jobs/docs`. An invalid value returns a 400 that lists the allowed values. Design: [`../../pipeline/specs/integrated-datasources-spec.md`](../../pipeline/specs/integrated-datasources-spec.md).
 
 | Field | Type | Values used |
 | --- | --- | --- |
@@ -57,7 +77,7 @@ The `jobgether:` block of the criteria file holds the Jobgether searches (own `d
 
 `max_age_days` (in `defaults:`, 3) is not an API parameter: `pipeline/scripts/sources/jobgether_fetch.py` drops postings older than that and stops paging once a page reaches them (results are sorted by date).
 
-Its `selection:` block works like the LinkedIn one, but `fetch_delay_seconds` is 2, Jobgether's `Crawl-delay`.
+Its `pacing: fetch_delay_seconds` is 2, Jobgether's `Crawl-delay`.
 
 ## Indeed
 
@@ -95,15 +115,15 @@ Search URL template:
 | `slug` | The path segment after `/design-jobs/`. Location pages only: `remote-united-states` or `remote-anywhere`. An unknown slug returns a page with no cards, which the script treats as an error |
 | `max_age_days` | Not a URL parameter. The script stops reading at the first card that isn't Featured and is Expired or older than this. Cards show an age ('3h', '2d', '1mo'), not a date |
 | `max_pages` | The upper bound for `?page=` |
-| `fetch_delay_seconds` | Seconds between requests, list and job pages alike. The script enforces it |
-| `exclude_types` | Card type labels (Full Time, Contract, Internship) skipped at selection |
+| `pacing: fetch_delay_seconds` | Seconds between requests, list and job pages alike. The script enforces it |
+| `exclude_types` | In the `uiux` block itself. Card type labels (Full Time, Contract, Internship) Select drops |
 | `name` | Becomes `source_search` on staged notes, and the search record's file name `YYYY-MM-DD--<name>.md` |
 
 The board has no search API, RSS or feed, so there are no query parameters beyond the page number.
 
 ## Fantastic.jobs
 
-`pipeline/scripts/sources/fantastic_fetch.py` reads the paid Fantastic.jobs API (D23). Every key of a search, merged over `fantastic: defaults:`, is sent as a query parameter, except the script's own `name`, `endpoint` and `max_age_hours`. Lists are comma-joined. The full parameter list is in the OpenAPI spec, `https://data.fantastic.jobs/openapi`.
+`pipeline/scripts/sources/fantastic_fetch.py` reads the paid Fantastic.jobs API (D23). Every key of a search, merged over `sources: fantastic: defaults:`, is sent as a query parameter, except the script's own `name`, `endpoint` and `max_age_hours`. Lists are comma-joined. The full parameter list is in the OpenAPI spec, `https://data.fantastic.jobs/openapi`.
 
 `GET https://data.fantastic.jobs/v1/<active-ats | active-jb>` with `Authorization: Bearer $FANTASTIC_JOBS_API_KEY`
 
@@ -122,7 +142,7 @@ The board has no search API, RSS or feed, so there are no query parameters beyon
 
 ## TheirStack
 
-`pipeline/scripts/sources/theirstack_fetch.py` reads the paid TheirStack API (D24). Every key of a search, merged over `theirstack: defaults:`, is sent as-is in the JSON request body, except the script's own `name`. The full parameter list is in the OpenAPI spec, `https://api.theirstack.com/openapi.json`.
+`pipeline/scripts/sources/theirstack_fetch.py` reads the paid TheirStack API (D24). Every key of a search, merged over `sources: theirstack: defaults:`, is sent as-is in the JSON request body, except the script's own `name`. The full parameter list is in the OpenAPI spec, `https://api.theirstack.com/openapi.json`.
 
 `POST https://api.theirstack.com/v1/jobs/search` with `Authorization: Bearer $THEIRSTACK_API_KEY`
 

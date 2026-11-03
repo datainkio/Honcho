@@ -15,7 +15,7 @@ It saves `logs/searches/YYYY-MM-DD--uiux-<name>.md` with `type: uiux-search-run`
 
 ## Select
 
-As Step 2 of the skill. The script also drops `exclude_types` (Internship) and marks Featured cards `check:` so you can confirm they're in the search's location. Skip companies that are a person's name by eye. Apply the `uiux: selection:` policy. The picks go on the run's one combined shortlist (Step 2 of the skill).
+As Step 2 of the skill. The script also drops `exclude_types` (Internship) and marks Featured cards `check:` so you can confirm they're in the search's location. Skip companies that are a person's name by eye. Observe `sources: uiux: pacing: max_fetches_per_run`. The picks go on the run's one combined shortlist (Step 2 of the skill).
 
 ## Fetch and stage
 
@@ -25,7 +25,7 @@ Run it yourself, once for the whole selection, in the background (Step 3 of the 
 python3 pipeline/scripts/sources/uiux_board.py stage --write uiux-<name>=<path> …
 ```
 
-Staged notes are `logs/inbox/<id>.md` with `type: uiux-job` and `source_search: uiux-<name>`. The script does the reading and prints one line per posting. The fit check follows `selection: fit_check` (off for now).
+Staged notes are `logs/inbox/<id>.md` with `type: uiux-job` and `source_search: uiux-<name>`. The script does the reading and prints one line per posting. The fit check follows `fit: check` (off for now).
 
 ## Hard stop
 
