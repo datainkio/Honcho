@@ -6,7 +6,7 @@ Every field in the criteria file (the one the run profile's `criteria` key names
 
 | YAML field | Tool param | Type | Allowed values |
 | --- | --- | --- | --- |
-| `keywords` | `keywords` | string (required) | free text; LinkedIn boolean operators (`OR`, `AND`, quotes) work |
+| `keywords` | `keywords` | string (required) | free text, read as a semantic query: quotes and `NOT` have no effect and `OR` is unproven (D25). Put location and work type in the words, e.g. `"remote UX researcher in United States"` |
 | `location` | `location` | string | free text, e.g. `"Remote"`, `"Baltimore, Maryland"` |
 | `max_pages` | `max_pages` | int | `1`–`10` (default `3`) |
 | `date_posted` | `date_posted` | enum | `past_hour`, `past_24_hours`, `past_week`, `past_month` |
@@ -16,15 +16,17 @@ Every field in the criteria file (the one the run profile's `criteria` key names
 | `easy_apply` | `easy_apply` | bool | `true`, `false` (default `false`) |
 | `sort_by` | `sort_by` | enum | `date`, `relevance` |
 
-Multi-value fields (`job_type`, `experience_level`, `work_type`) are comma-separated at the tool boundary; express them as YAML lists here and the runbook joins them.
+Multi-value fields (`job_type`, `experience_level`, `work_type`) are comma-separated at the tool boundary; express them as YAML lists here and `linkedin_fetch.py` joins them.
+
+LinkedIn's redesigned search page (2026-10-21) keeps only `keywords` and `date_posted` (plus paging). It drops `location`, `work_type`, `experience_level`, `job_type` and `sort_by`, and returns relevance order. Each search record notes this as `filters_dropped`. Leave those fields out of your searches; `linkedin_fetch.py` still sends any you set, in case LinkedIn restores them.
 
 ## Returns
 
-`search_jobs` returns a dict with `url`, `sections` (name → raw text), and **`job_ids`** — a list of numeric job-ID strings. Those IDs are the input to `get_job_details`. A LinkedIn job URL like `https://www.linkedin.com/jobs/view/3284153990` carries the same ID (`3284153990`), so job IDs already sitting in the job ledger CSV in the old automation repo's `source/` folder can be fed straight to `get_job_details` without a search.
+`search_jobs` returns a dict with `url`, `sections` (name → raw text), and **`job_ids`** — a list of numeric job-ID strings. Those IDs are the input to `get_job_details`. A LinkedIn job URL like `https://www.linkedin.com/jobs/view/3284153990` carries the same ID (`3284153990`), so a job ID from a LinkedIn URL can be fed straight to `get_job_details` without a search.
 
 ## `sources:` (D17)
 
-Top-level block of `<source>: { enabled: bool }` for `linkedin`, `jobgether`, `indeed`, `uiux`, `fantastic` and `theirstack`. A missing entry is off, except `jobgether`, which is on by default because its search API needs no login. The other three are opt-in: LinkedIn is read through a logged-in browser, Indeed through Chrome behind Cloudflare, and the UI/UX Jobs Board by plain-HTTP scraping, and each source's terms restrict automated access. `fantastic` and `theirstack` are paid APIs whose terms Russ accepted on 2026-10-21 (D23, D24). `linkedin_fetch.py`, `uiux_board.py`, `fantastic_fetch.py` and `theirstack_fetch.py` refuse a disabled source (`search` and `stage`; `check` still runs). The runbook skips disabled Jobgether and Indeed sections.
+Top-level block of `<source>: { enabled: bool }` for `linkedin`, `jobgether`, `indeed`, `uiux`, `fantastic` and `theirstack`. A missing entry is off, except `jobgether`, which is on by default because its search API needs no login. The other three are opt-in: LinkedIn is read through a logged-in browser, Indeed through Chrome behind Cloudflare, and the UI/UX Jobs Board by plain-HTTP scraping, and each source's terms restrict automated access. `fantastic` and `theirstack` are paid APIs whose terms Russ accepted on 2026-10-21 (D23, D24). The five source scripts (`linkedin_fetch.py`, `jobgether_fetch.py`, `uiux_board.py`, `fantastic_fetch.py`, `theirstack_fetch.py`) refuse a disabled source (`search` and `stage`; `check` still runs), and `retrieve.py` skips it. The runbook skips a disabled Indeed section.
 
 ## `fit:`
 
@@ -36,7 +38,7 @@ Paths default to the repo layout: `naming.py paths` prints each one, resolved fr
 
 ## Not tool parameters
 
-The `defaults:` block is a project convenience (merged into each search by the runbook). The `selection:` block is advisory policy for *which* returned jobs to fetch in full and how fast — it governs the local pipeline, not the LinkedIn query. `exclude_title_terms` drops titles before any fetch, and `batch_size` sets how many jobs each `job-fetcher` subagent handles (runbook Step 2).
+The `defaults:` block is a project convenience (each source script merges it into every search). `incremental:` is laid over `defaults:` by `linkedin_fetch.py search --incremental`. The `selection:` block is policy for *which* returned jobs to fetch in full and how fast — it governs the local pipeline, not the LinkedIn query. The scripts enforce `fetch_delay_seconds`, LinkedIn's `max_fetches_per_run` and `exclude_title_terms` (Select drops those titles before any fetch). The session observes the other sources' `max_fetches_per_run`, and `batch_size` sets how many jobs each `job-fetcher` subagent handles. Select always skips jobs that already have a task or are staged; there is no setting for it.
 
 ## Jobgether `searchJobs`
 

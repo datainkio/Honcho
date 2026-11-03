@@ -72,7 +72,7 @@ python3 pipeline/scripts/sources/uiux_board.py stage --write uiux-remote-us=/job
 
 Start them with Bash `run_in_background` and go on with the Chrome sources while they run: the LinkedIn server drives its own browser profile (`~/.linkedin-mcp/profile/`), the board is plain HTTP, and neither touches the operator's Chrome. Never run two LinkedIn processes at once. A background exit 1 is a hard stop like any other: on its exit notification read only the last line, and stop the whole run, Chrome work included. Each prints one line per posting, with `over100` or `-` for LinkedIn.
 
-**Fit check: off for now** (`selection: fit_check: false`; `python3 pipeline/scripts/naming.py fit` says so). Every staged note goes to the fold, and misfits are scored low at the next Fit batch. When it is on, give the staged ids to one `job-fetcher` agent with `source: staged` once both scripts have finished.
+**Fit check: off for now** (`selection: fit_check: false`; `python3 pipeline/scripts/naming.py fit` says so). Every staged note goes to the fold (Fit batches were removed, D34). When it is on, give the staged ids to one `job-fetcher` agent with `source: staged` once both scripts have finished.
 
 **Chrome sources (Jobgether, Indeed):** use the `job-fetcher` agent (`model: haiku`), never the main session. Split the selection into batches of `batch_size` and run **one batch at a time** (they share the operator's Chrome). Give each batch its `source` and one line per job: `job_id`, title, company, `source_search`. Each reply is one line per job: `id | company | title | staged or skipped: reason | over100 or -`.
 
