@@ -24,3 +24,4 @@ __pycache__/
 .codegraphy/*
 .claude/*
 .claudian/
+.obsidian/workspace.json
