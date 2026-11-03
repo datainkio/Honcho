@@ -10,6 +10,7 @@ applicant/**/*
 !applicant/**/
 !applicant/**/DEFAULT.*
 !applicant/**/README.md
+WHITEBOARD.md
 
 # Run output and tracking
 logs/*
