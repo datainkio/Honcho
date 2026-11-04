@@ -59,14 +59,14 @@ sources:
   # reads keywords as a semantic query (no Boolean operators, D25), so put the
   # location and work type in the words: 'remote ... in United States'.
   linkedin:
-    enabled: false
+    enabled: true
     pacing:
       max_fetches_per_run: 50
-      fetch_delay_seconds: 4 # between tool calls; the server paces a search's own pages
+      fetch_delay_seconds: 2 # between tool calls; the server paces a search's own pages
 
     defaults:
       max_pages: 5 # 1–10, 25 rows a page
-      easy_apply: false
+      easy_apply: true
       # past_hour | past_24_hours | past_week | past_month. Results come in relevance
       # order, so a long window can fill the pages before the freshest jobs appear.
       date_posted: past_24_hours
@@ -132,7 +132,7 @@ sources:
   # `max_age_hours` is sent as a query parameter (lists comma-joined); see
   # README.md. `title_advanced` is a Boolean query: & | ! <-> ( ) and :* prefix.
   fantastic:
-    enabled: false
+    enabled: true
 
     defaults:
       endpoint: ats # ats (company career pages) | jb (job boards)
@@ -154,7 +154,7 @@ sources:
   # as-is in the JSON request body; see README.md. A posted_at_* filter is
   # required. Title patterns are case-insensitive regexes.
   theirstack:
-    enabled: false
+    enabled: true
 
     defaults:
       limit: 25

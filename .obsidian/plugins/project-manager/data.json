@@ -1,5 +1,5 @@
 {
-  "projectsFolder": "tracking",
+  "projectsFolder": "applications",
   "peopleFolder": "People",
   "excludedFolders": [],
   "defaultView": "kanban",
@@ -117,7 +117,13 @@
   "projectFilters": {
     "project:applications/DEFAULT.md": {
       "filter": {
-        "conditions": [],
+        "conditions": [
+          {
+            "field": "cf:3bgx2370yxzudbaj",
+            "op": "bucket",
+            "value": "today"
+          }
+        ],
         "showArchived": false
       },
       "activeSavedViewId": "omd4woewmvfnuqbb",
@@ -144,7 +150,9 @@
         "kanban": {
           "visible": [
             "priority",
-            "progress"
+            "progress",
+            "due",
+            "cf:g575j35v209i8i22"
           ]
         }
       },

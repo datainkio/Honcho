@@ -58,6 +58,7 @@ BADGE = re.compile(r"^(?:[·•]|---|\d+|Next|Previous|Viewed|Applied|Saved|Prom
                    r"|You’d be a top applicant|Actively reviewing applicants|Posted .*|.*\bbenefits?$|\$.*"
                    r"|(?:Medical|Vision|Dental|401\(k\))(?:, .*)?|.* works? here|[\d,]+\+? results"
                    r"|How promoted jobs are ranked|How AI search works|We found more results related to your search.*"
+                   r"|We had trouble finding exact matches.*"
                    r"|Are these results helpful\?|Your feedback helps us improve search results\."
                    r"|No results found|Try shortening or rephrasing your search\.|Clear all filters)$")
 FEEDBACK_REF = "Is this information helpful?"  # the redesigned page's only 'job result' reference text
@@ -199,7 +200,8 @@ def parse_search(result):
         if r.get("kind") == "job" and r.get("context") == "job result" and m:
             refs.append((m.group(1), (r.get("text") or "").strip()))
     promoted = {str(x) for x in result.get("promoted_job_ids") or []}
-    if not any(t and not t.startswith(FEEDBACK_REF) for _, t in refs):
+    # One feedback reference marks the redesigned page, even when a few other references carry real titles.
+    if not any(t for _, t in refs) or any(t.startswith(FEEDBACK_REF) for _, t in refs):
         return parse_redesigned(result, lines, promoted)
     rows, i = [], 0
     for n, (jid, ref_title) in enumerate(refs):
