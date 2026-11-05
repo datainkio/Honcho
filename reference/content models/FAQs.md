@@ -1,5 +1,5 @@
 ---
-title: Questions Model
+title: FAQs Model
 description: Defines the question set the operator keeps for application forms, and one posting's answers to it, drafted from a brief built on the match report and pasted into forms as plain text.
 type: content-model
 updated: 2026-11-03
@@ -7,7 +7,7 @@ updated: 2026-11-03
 
 # Questions
 
-Application forms often ask free-text questions. Two objects cover them: the **question set**, which the operator keeps, and a posting's **answers**, which [`/question-answers`](../../pipeline/skills/question-answers/SKILL.md) writes. Answers are pasted, not rendered: there is no `.docx` or `.pdf`. The skill replaces the interest statement ([D19](../../context/decisions.md)).
+Application forms often ask free-text questions. Two objects cover them: the **question set**, which the operator keeps, and a posting's **answers**, which [`/question-answers`](pipeline/skills/faqs/SKILL.md) writes. Answers are pasted, not rendered: there is no `.docx` or `.pdf`. The skill replaces the interest statement ([D19](../../context/decisions.md)).
 
 ```mermaid
 flowchart LR

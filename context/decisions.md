@@ -384,3 +384,11 @@ in `goals/Application Tracking/_tasks/` was costly and fragile to keep in sync. 
 - **One owner: `task_links.py`.** Its `refresh()` already reads each posting folder for the links block, so it now also sets the four boxes and `progress`. The fold and both renderers call it, so a résumé or letter render updates the task. Match reports and questions are written by agents, so their skills run `task_links.py --write <job_id>...` (new: job ids limit the run to those tasks) after writing.
 - **Views.** The kanban cards that showed the retired Résumé variant now show `progress`. In the same edit, D36's removals from the project note were applied again.
 - **Edit the project note with the vault open, never closed.** dotpm keeps no cache of its own, but at startup it loads the project from Obsidian's metadata cache (IndexedDB), which can still hold the old frontmatter, and writes that back. That is how D36 came undone, and how the first edit of these fields was lost when the vault reopened. With the vault open, Obsidian re-indexes the outside edit straight away. Better still, add custom fields in dotpm's settings: its API can't.
+
+## D39 — Honcho's own work is tracked in a separate dotpm project
+
+**2026-11-05. Decided by Russ** (whiteboard: 'Document the open questions as tasks'; chose a new dotpm project over GitHub issues or a backlog file).
+
+- **Where.** `context/Honcho Dev/`, with its note `Honcho Dev.md` and its own `_tasks/`. Bugs, data questions and decisions waiting on Russ go here. Job postings stay in Application Tracking, whose statuses are application stages.
+- **Why not the alternatives.** The repo is public, so issues are public on creation. The posting scripts read `applications/_tasks`, so development tasks there would mix with postings.
+- **Public on push.** These files are tracked, like the handoffs. Keep out anything that shouldn't be public.

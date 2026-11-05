@@ -3,5 +3,5 @@
 <!-- readme-index:start -->
 ## Index
 
-- [SKILL.md](SKILL.md)
+- [SKILL.md](pipeline/skills/resume-tailoring/SKILL.md)
 <!-- readme-index:end -->

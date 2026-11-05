@@ -81,6 +81,6 @@ Packages from before the current skills may also hold:
 | File                       | What it was                                                                                     |
 | -------------------------- | ----------------------------------------------------------------------------------------------- |
 | `interest.md`              | the brief for an interest statement (`type: interest-brief`), with its `## Check`               |
-| `why-interested.md`        | a 3-5 sentence answer to 'Why are you interested?' (`type: why-interested`). Superseded by [Questions](Questions.md) ([D19](../../context/decisions.md)); the links block still links it |
+| `why-interested.md`        | a 3-5 sentence answer to 'Why are you interested?' (`type: why-interested`). Superseded by [FAQs](FAQs.md) ([D19](../../context/decisions.md)); the links block still links it |
 | `application-questions.md` | answers before `questions.md`; still counts for _Has questions_                                 |
 | `* - Cover Letter.pdf`, `*.pages` | files the operator exported by hand                                                    |

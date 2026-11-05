@@ -1,15 +1,15 @@
 ---
-name: question-answers
-description: Given a MD file holding a list of questions for the candidate, answer each question using your insights into the job description. For each question, synthesize a 2-3 sentence answer using material from the resume or match report. Use when the user asks for a questions document or invokes /question-answers <job_id or title — company>.
+name: faqs
+description: Given a MD file holding a list of questions for the candidate, use your insights into the applicant and the job description to produce meaningful and engaging answers. For each question, synthesize a 2-3 sentence answer using material from the resume or match report. Use when the user asks for a questions document or invokes /question-answers <job_id or title — company>.
 ---
-# /question-answers
+# /faqs
 Write one short answer statement per question. Application forms often include free-text fields. The answers are pasted, not rendered: there is no .docx or PDF.
 This file is the only operational authority. Binding rules: the truth rules (`naming.py paths`, row `truth rules`). The answers claim nothing the match report or résumé does not back, and those trace to the dossier specified by the user in the currently selected profile.
 ## Usage
 
-/question-answers 4476502229
-/question-answers "Lead Product (UX) Designer — Mark43"
-/question-answers all  (every posting the gate passes that has no questions.md yet)
+/faqs 4476502229
+/faqs "Lead Product (UX) Designer — Mark43"
+/faqs all  (every posting the gate passes that has no faqs.md yet)
 ## Paths
 All paths are relative to the Honcho repo root. They contain spaces, so quote them and never backslash-escape.
 

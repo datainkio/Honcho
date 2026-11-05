@@ -32,7 +32,7 @@ flowchart LR
 | `criteria`              | no       | `applicant/criteria/<value>.yaml` (or `.yaml.md`) | fit, selection, and one block per source ([D35](../../context/decisions.md)) |
 | `resume template`       | no       | `applicant/resumes/<value>.md`             | fixed résumé text with `{{ slot }}` markers                  |
 | `cover letter template` | no       | `applicant/cover letters/<value>.md`       | the letter's structure, header and fixed text                |
-| `questions`             | no       | `applicant/questions/<value>.md`           | the question set for [Questions](Questions.md)               |
+| `questions`             | no       | `applicant/questions/<value>.md`           | the question set for [FAQs](FAQs.md)               |
 | `style`                 | no       | `applicant/styles/<value>.yaml`            | fonts, sizes and margins for `.docx` and `.pdf`              |
 | `project`               | no       | `applications/<value>.md`                  | the dotpm project note that tracks the postings              |
 | `author`                | no       |                                            | who maintains the profile (`candidate`)                      |

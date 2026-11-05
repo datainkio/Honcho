@@ -17,7 +17,7 @@ Contracts for the structure of the objects the pipeline reads and writes. Each m
 | [Match Report](Match%20Report.md) | Slot values and keyword matching, reviewed before render       | `applications/<task name>/match-report.md`                   | `/resume-tailoring`                            |
 | [Resume](Resume.md)              | The filled résumé template and its rendered files              | `applications/<task name>/resume.md`, `.docx`, `.pdf`        | `render_resume.py`                             |
 | [Cover Letter](Cover%20Letter.md) | The posting's letter and its rendered file                     | `applications/<task name>/cover-letter.md`, `.docx`          | `/cover-letter-writing`, `render_cover_letter.py` |
-| [Questions](Questions.md)        | The question set, and one posting's answers to it              | `applicant/questions/`, `applications/<task name>/questions.md` | the operator, `/question-answers`              |
+| [FAQs](FAQs.md)        | The question set, and one posting's answers to it              | `applicant/questions/`, `applications/<task name>/questions.md` | the operator, `/question-answers`              |
 
 ## How the models relate
 

@@ -1,6 +1,6 @@
 # job-retrieval
 
-`/job-retrieval` runs one manual retrieval session: it searches the enabled job sources, picks the likely fits, stages their descriptions, folds them into tracking tasks, and starts the package wave. The operator approves each slice before anything is fetched. Nothing here is scheduled or unattended. The operational authority is [SKILL.md](SKILL.md). These diagrams explain it.
+`/job-retrieval` runs one manual retrieval session: it searches the enabled job sources, picks the likely fits, stages their descriptions, folds them into tracking tasks, and starts the package wave. The operator approves each slice before anything is fetched. Nothing here is scheduled or unattended. The operational authority is [SKILL.md](pipeline/skills/job-retrieval/SKILL.md). These diagrams explain it.
 
 ## Who is responsible for what
 
@@ -349,5 +349,5 @@ flowchart TD
 ## Index
 
 - [references/](references/README.md)
-- [SKILL.md](SKILL.md)
+- [SKILL.md](pipeline/skills/job-retrieval/SKILL.md)
 <!-- readme-index:end -->

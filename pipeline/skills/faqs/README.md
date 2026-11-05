@@ -1,7 +1,7 @@
-# question-answers
+# faqs
 
 <!-- readme-index:start -->
 ## Index
 
-- [SKILL.md](SKILL.md)
+- [SKILL.md](pipeline/skills/faqs/SKILL.md)
 <!-- readme-index:end -->

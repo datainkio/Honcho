@@ -10,7 +10,7 @@
 		{"type":"file","id":"f5902d37-6595-4310-b291-b0300b008d56","x":640,"y":0,"width":360,"height":220,"file":"reference/content models/Match Report.md"},
 		{"type":"file","id":"a3f13ff8-2f3e-43ac-bfc0-44d119bb0dce","x":1100,"y":0,"width":360,"height":220,"file":"reference/content models/Resume.md"},
 		{"type":"file","id":"ed4cf084-aa8e-42d4-a271-22c60e3e0315","x":1560,"y":0,"width":360,"height":220,"file":"reference/content models/Cover Letter.md"},
-		{"type":"file","id":"29ef8111-2749-48f7-84a2-a61a754c1e41","x":1100,"y":560,"width":360,"height":220,"file":"reference/content models/Questions.md"}
+		{"type":"file","id":"29ef8111-2749-48f7-84a2-a61a754c1e41","x":1100,"y":560,"width":360,"height":220,"file":"reference/content models/FAQs.md"}
 	],
 	"edges":[
 		{"id":"c0a1e5d2b3f4e001","fromNode":"b9ed8464-cf87-481b-95ee-caeb8c88987e","fromSide":"bottom","toNode":"9be549b0-8acc-4a09-b572-feceb5e28fc9","toSide":"top","toEnd":"arrow","label":"criteria drive the searches; the project note tracks the tasks"},

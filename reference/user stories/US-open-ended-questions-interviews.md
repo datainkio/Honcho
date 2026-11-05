@@ -1,0 +1,1 @@
+As an [[🧑 Applicant]], I want to anticipate open-ended questions in interviews so that I sound like a goddamn genius.

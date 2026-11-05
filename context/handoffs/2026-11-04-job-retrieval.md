@@ -1,5 +1,5 @@
 ---
-status: active
+status: superseded
 ---
 
 # Handoff: job-retrieval run, 2026-11-04

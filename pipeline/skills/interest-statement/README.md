@@ -3,5 +3,5 @@
 <!-- readme-index:start -->
 ## Index
 
-- [SKILL.md](SKILL.md)
+- [SKILL.md](pipeline/skills/interest-statement/SKILL.md)
 <!-- readme-index:end -->

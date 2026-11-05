@@ -1,0 +1,1 @@
+As a [[People/🧑 Recruiter]] or [[People/🧑 Team Lead]], I want answers that satisfy my information needs so that I can make a decision on this applicant.
