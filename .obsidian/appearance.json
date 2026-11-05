@@ -2,5 +2,6 @@
   "cssTheme": "Notation",
   "enabledCssSnippets": [
     "Dashboard-Zen"
-  ]
+  ],
+  "showViewHeader": false
 }

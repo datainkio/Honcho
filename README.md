@@ -2,6 +2,8 @@
 
 Honcho uses Claude Code and Python to read job postings and tailor application materials to each one, so that employers see the clearest, richest picture of you. It knows the parts of your work experience that will count the most for a given role and builds a résumé and cover letter around them. It even rolls out a list of answers to the open-ended questions you are likely to encounter.
 
+![Honcho dashboard in Obsidian, showing the current objective, shortcuts and a pipeline of open applications](docs/images/honcho-dashboard.png)
+
 **Get started**
 
 1. `git clone https://github.com/datainkio/honcho && cd honcho && cp .env.example .env`
@@ -35,6 +37,8 @@ Hand Honcho your résumés, LinkedIn export or notes, and it builds a dossier: o
 ## Track your applications across their entire lifecycle.
 
 Every posting becomes a note that follows it from Prospect to Applied, Screening, Interviewing and Offer. Each note links the exact résumé and cover letter you sent, so you always know which version of you an employer saw. The notes are plain Markdown, built for Obsidian's dotpm plugin but readable anywhere.
+
+![Application tracking board in Obsidian, with postings as cards in columns from Prospect through Applied and Screening](docs/images/honcho-kanban.png)
 
 ## What's here
 

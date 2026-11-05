@@ -117,25 +117,14 @@
   "projectFilters": {
     "project:applications/DEFAULT.md": {
       "filter": {
-        "conditions": [
-          {
-            "field": "cf:3bgx2370yxzudbaj",
-            "op": "bucket",
-            "value": "today"
-          },
-          {
-            "field": "due",
-            "op": "bucket",
-            "value": "today"
-          }
-        ],
+        "conditions": [],
         "showArchived": false
       },
-      "activeSavedViewId": "omd4woewmvfnuqbb",
+      "activeSavedViewId": null,
       "sort": [
         {
-          "key": "priority",
-          "dir": "asc"
+          "key": "progress",
+          "dir": "desc"
         }
       ],
       "group": {
